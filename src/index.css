@@ -1,0 +1,828 @@
+@import "tailwindcss";
+
+/* ============================================
+   SKYHAWKS - Global Styles & Design System
+   Primary: Sandy Beige (Logo Color)
+   Accents: Warm Gold, Copper, Deep Sky Blue
+   ============================================ */
+
+/* CSS Custom Properties */
+:root {
+  /* Primary - Sandy Beige (Logo Color) */
+  --color-primary: #C9A87C;
+  --color-primary-bright: #E2C49A;
+  --color-primary-deep: #A07848;
+
+  /* Accent 1 - Warm Gold */
+  --color-accent: #D4A843;
+  --color-accent-bright: #F0C870;
+  --color-accent-warm: #B8882A;
+
+  /* Accent 2 - Copper/Terracotta */
+  --color-copper: #C47A52;
+  --color-copper-bright: #E09070;
+
+  /* Accent 3 - Deep Sky Blue (contrast) */
+  --color-sky: #4A9EBF;
+  --color-sky-bright: #6EC0E0;
+
+  /* Background */
+  --color-bg-dark: #07080C;
+  --color-bg-card: rgba(20, 18, 14, 0.7);
+
+  /* Text */
+  --color-text: #F5EDD8;
+  --color-text-muted: #A89880;
+  --color-text-strong: #FBF5E8;
+
+  /* Borders & Glows */
+  --color-border: rgba(201, 168, 124, 0.18);
+  --color-glow-beige: rgba(201, 168, 124, 0.45);
+  --color-glow-gold: rgba(212, 168, 67, 0.45);
+  --color-glow-copper: rgba(196, 122, 82, 0.45);
+  --color-glow-sky: rgba(74, 158, 191, 0.45);
+
+  /* Legacy tan colors */
+  --color-tan: #C9A87C;
+  --color-tan-light: #F5EDD8;
+  --color-tan-dark: #A07848;
+
+  /* Fonts */
+  --font-display: 'Orbitron', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* Reset & Base */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-bg-dark);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-bright);
+}
+
+/* Selection */
+::selection {
+  background: rgba(201, 168, 124, 0.35);
+  color: #fff;
+}
+
+/* ============================================
+   Typography
+   ============================================ */
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* ============================================
+   Glassmorphism Card
+   ============================================ */
+
+.glass-card {
+  background: rgba(20, 16, 10, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+}
+
+.glass-card-hover {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card-hover:hover {
+  border-color: rgba(201, 168, 124, 0.45);
+  box-shadow: 0 0 35px rgba(201, 168, 124, 0.12), inset 0 0 30px rgba(201, 168, 124, 0.04);
+  transform: translateY(-4px);
+}
+
+/* ============================================
+   Neon / Glow Effects
+   ============================================ */
+
+/* Primary beige glow */
+.neon-text-green {
+  color: var(--color-primary-bright);
+  text-shadow: 0 0 12px var(--color-glow-beige),
+               0 0 25px rgba(201, 168, 124, 0.35),
+               0 0 50px rgba(201, 168, 124, 0.15);
+}
+
+.neon-text-blue {
+  color: var(--color-primary-bright);
+  text-shadow: 0 0 12px var(--color-glow-beige),
+               0 0 25px rgba(201, 168, 124, 0.35),
+               0 0 50px rgba(201, 168, 124, 0.15);
+}
+
+/* Gold glow */
+.neon-text-gold {
+  color: var(--color-accent-bright);
+  text-shadow: 0 0 12px var(--color-glow-gold),
+               0 0 25px rgba(212, 168, 67, 0.35),
+               0 0 50px rgba(212, 168, 67, 0.15);
+}
+
+.neon-text-orange {
+  color: var(--color-accent-bright);
+  text-shadow: 0 0 12px var(--color-glow-gold),
+               0 0 25px rgba(212, 168, 67, 0.35),
+               0 0 50px rgba(212, 168, 67, 0.15);
+}
+
+/* Copper glow */
+.neon-text-copper {
+  color: var(--color-copper-bright);
+  text-shadow: 0 0 12px var(--color-glow-copper),
+               0 0 25px rgba(196, 122, 82, 0.35),
+               0 0 50px rgba(196, 122, 82, 0.15);
+}
+
+/* Sky blue glow */
+.neon-text-sky {
+  color: var(--color-sky-bright);
+  text-shadow: 0 0 12px var(--color-glow-sky),
+               0 0 25px rgba(74, 158, 191, 0.35),
+               0 0 50px rgba(74, 158, 191, 0.15);
+}
+
+.neon-border {
+  box-shadow: 0 0 18px rgba(201, 168, 124, 0.25),
+              inset 0 0 18px rgba(201, 168, 124, 0.06);
+}
+
+/* Glow box for cards/panels */
+.glow-beige {
+  box-shadow: 0 0 25px rgba(201, 168, 124, 0.2),
+              0 0 50px rgba(201, 168, 124, 0.08);
+}
+
+.glow-gold {
+  box-shadow: 0 0 25px rgba(212, 168, 67, 0.2),
+              0 0 50px rgba(212, 168, 67, 0.08);
+}
+
+.glow-copper {
+  box-shadow: 0 0 25px rgba(196, 122, 82, 0.2),
+              0 0 50px rgba(196, 122, 82, 0.08);
+}
+
+.glow-sky {
+  box-shadow: 0 0 25px rgba(74, 158, 191, 0.2),
+              0 0 50px rgba(74, 158, 191, 0.08);
+}
+
+/* ============================================
+   Gradient Backgrounds
+   ============================================ */
+
+.gradient-green {
+  background: linear-gradient(135deg, #C9A87C, #A07848);
+}
+
+.gradient-gold {
+  background: linear-gradient(135deg, #D4A843, #C9A87C);
+}
+
+/* Primary beige gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #C9A87C, #E2C49A, #D4A843);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Gold gradient text */
+.gradient-text-gold {
+  background: linear-gradient(135deg, #D4A843, #F0C870, #C47A52);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-orange {
+  background: linear-gradient(135deg, #D4A843, #F0C870, #C47A52);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Sky gradient text */
+.gradient-text-sky {
+  background: linear-gradient(135deg, #4A9EBF, #6EC0E0, #C9A87C);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   Animated Background Grid  (very subtle)
+   ============================================ */
+
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(201, 168, 124, 0.012) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201, 168, 124, 0.012) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ============================================
+   Particle / Star Background
+   ============================================ */
+
+.stars-bg::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.25), transparent),
+    radial-gradient(1px 1px at 40% 70%, rgba(255,255,255,0.18), transparent),
+    radial-gradient(1px 1px at 60% 40%, rgba(255,255,255,0.22), transparent),
+    radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.18), transparent),
+    radial-gradient(1px 1px at 10% 80%, rgba(255,255,255,0.18), transparent),
+    radial-gradient(1.5px 1.5px at 90% 50%, rgba(201, 168, 124, 0.4), transparent),
+    radial-gradient(1.5px 1.5px at 50% 90%, rgba(212, 168, 67, 0.35), transparent),
+    radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,0.14), transparent),
+    radial-gradient(1px 1px at 30% 20%, rgba(74, 158, 191, 0.2), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================
+   Loader
+   ============================================ */
+
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--color-bg-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.loader-ring {
+  width: 80px;
+  height: 80px;
+  border: 3px solid rgba(201, 168, 124, 0.12);
+  border-top: 3px solid var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 20px rgba(201, 168, 124, 0.3);
+}
+
+.loader-ring-inner {
+  width: 50px;
+  height: 50px;
+  border: 2px solid rgba(212, 168, 67, 0.12);
+  border-bottom: 2px solid var(--color-accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite reverse;
+  position: absolute;
+  box-shadow: 0 0 15px rgba(212, 168, 67, 0.3);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loader-text {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+  color: var(--color-primary);
+  margin-top: 2rem;
+  animation: pulse-text 1.5s ease-in-out infinite;
+  text-shadow: 0 0 15px rgba(201, 168, 124, 0.5);
+}
+
+@keyframes pulse-text {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* ============================================
+   Section Styling
+   ============================================ */
+
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.section-divider {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  border-radius: 2px;
+  box-shadow: 0 0 12px rgba(201, 168, 124, 0.4);
+}
+
+/* ============================================
+   Team Cards
+   ============================================ */
+
+.team-card {
+  background: rgba(20, 16, 10, 0.65);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.team-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+  transform: scaleX(0);
+  transition: transform 0.5s ease;
+}
+
+.team-card:hover::before {
+  transform: scaleX(1);
+}
+
+.team-card:hover {
+  border-color: rgba(201, 168, 124, 0.4);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 35px rgba(201, 168, 124, 0.15);
+}
+
+.team-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-deep));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #07080C;
+  margin: 0 auto 1rem;
+  position: relative;
+  box-shadow: 0 0 20px rgba(201, 168, 124, 0.35);
+}
+
+.team-avatar::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: var(--color-primary);
+  animation: spin 3s linear infinite;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.role-mechanical {
+  background: rgba(74, 158, 191, 0.15);
+  color: #6EC0E0;
+  border: 1px solid rgba(74, 158, 191, 0.35);
+}
+
+.role-electrical {
+  background: rgba(212, 168, 67, 0.15);
+  color: #F0C870;
+  border: 1px solid rgba(212, 168, 67, 0.35);
+}
+
+.role-software {
+  background: rgba(201, 168, 124, 0.15);
+  color: #E2C49A;
+  border: 1px solid rgba(201, 168, 124, 0.35);
+}
+
+.role-lead {
+  background: rgba(196, 122, 82, 0.15);
+  color: #E09070;
+  border: 1px solid rgba(196, 122, 82, 0.35);
+}
+
+/* ============================================
+   Achievement Cards
+   ============================================ */
+
+.achievement-card {
+  background: rgba(20, 16, 10, 0.65);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.achievement-card:hover {
+  border-color: rgba(212, 168, 67, 0.45);
+  box-shadow: 0 0 35px rgba(212, 168, 67, 0.12);
+  transform: translateY(-4px);
+}
+
+.achievement-year {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-accent-bright);
+  letter-spacing: 0.1em;
+}
+
+/* ============================================
+   Timeline
+   ============================================ */
+
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, var(--color-primary), var(--color-accent), transparent);
+  transform: translateX(-50%);
+}
+
+.timeline-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  border: 3px solid var(--color-bg-dark);
+  box-shadow: 0 0 15px var(--color-glow-beige);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ============================================
+   Sponsors
+   ============================================ */
+
+.sponsor-logo {
+  background: rgba(20, 16, 10, 0.45);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s ease;
+  min-height: 100px;
+}
+
+.sponsor-logo:hover {
+  border-color: rgba(201, 168, 124, 0.45);
+  background: rgba(201, 168, 124, 0.06);
+  box-shadow: 0 0 25px rgba(201, 168, 124, 0.12);
+  transform: scale(1.05);
+}
+
+/* ============================================
+   Contact Form
+   ============================================ */
+
+.contact-input {
+  width: 100%;
+  padding: 0.875rem 1.25rem;
+  background: rgba(20, 16, 10, 0.6);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  color: var(--color-text-strong);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.contact-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 20px rgba(201, 168, 124, 0.15);
+}
+
+.contact-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.contact-btn {
+  width: 100%;
+  padding: 0.875rem 2rem;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-deep));
+  border: none;
+  border-radius: 12px;
+  color: #07080C;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(201, 168, 124, 0.25);
+}
+
+.contact-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 35px rgba(201, 168, 124, 0.4);
+}
+
+.contact-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.contact-btn:hover::after {
+  left: 100%;
+}
+
+/* ============================================
+   Social Icons
+   ============================================ */
+
+.social-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(20, 16, 10, 0.6);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  color: var(--color-text-muted);
+}
+
+.social-icon:hover {
+  border-color: var(--color-primary);
+  background: rgba(201, 168, 124, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 20px rgba(201, 168, 124, 0.25);
+  color: var(--color-primary-bright);
+}
+
+/* ============================================
+   Spec Panel (Engineering Section)
+   ============================================ */
+
+.spec-panel {
+  background: rgba(20, 16, 10, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.spec-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+}
+
+.spec-value {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary-bright);
+  text-shadow: 0 0 15px rgba(201, 168, 124, 0.4);
+}
+
+.spec-label {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 0.25rem;
+}
+
+/* ============================================
+   Navbar
+   ============================================ */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 1rem 2rem;
+  transition: all 0.4s ease;
+}
+
+.navbar-scrolled {
+  background: rgba(7, 8, 12, 0.88);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+}
+
+.nav-link {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-primary);
+  transition: width 0.3s ease;
+  box-shadow: 0 0 8px var(--color-glow-beige);
+}
+
+.nav-link:hover {
+  color: var(--color-primary-bright);
+  text-shadow: 0 0 10px rgba(201, 168, 124, 0.4);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ============================================
+   Canvas container
+   ============================================ */
+
+.canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.canvas-container canvas {
+  pointer-events: auto;
+}
+
+/* ============================================
+   Floating Animation
+   ============================================ */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+}
+
+.floating {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* ============================================
+   Logo glow animation
+   ============================================ */
+
+@keyframes logo-glow {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(201, 168, 124, 0.4)); }
+  50%       { filter: drop-shadow(0 0 16px rgba(201, 168, 124, 0.7)); }
+}
+
+.logo-glow {
+  animation: logo-glow 3s ease-in-out infinite;
+}
+
+/* ============================================
+   Pulsing glow keyframe (for elements)
+   ============================================ */
+
+@keyframes glow-pulse-beige {
+  0%, 100% { box-shadow: 0 0 12px rgba(201, 168, 124, 0.2); }
+  50%       { box-shadow: 0 0 28px rgba(201, 168, 124, 0.5), 0 0 50px rgba(201, 168, 124, 0.2); }
+}
+
+@keyframes glow-pulse-gold {
+  0%, 100% { box-shadow: 0 0 12px rgba(212, 168, 67, 0.2); }
+  50%       { box-shadow: 0 0 28px rgba(212, 168, 67, 0.5), 0 0 50px rgba(212, 168, 67, 0.2); }
+}
+
+.pulse-glow-beige {
+  animation: glow-pulse-beige 2.5s ease-in-out infinite;
+}
+
+.pulse-glow-gold {
+  animation: glow-pulse-gold 2.5s ease-in-out infinite;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+
+@media (max-width: 768px) {
+  .timeline-line {
+    left: 20px;
+  }
+
+  .timeline-dot {
+    left: 20px;
+  }
+
+  .spec-value {
+    font-size: 1.25rem;
+  }
+}
+
+/* Fade/slide animation helpers */
+.fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.fade-in {
+  opacity: 0;
+}
+
+.slide-left {
+  opacity: 0;
+  transform: translateX(-60px);
+}
+
+.slide-right {
+  opacity: 0;
+  transform: translateX(60px);
+}
