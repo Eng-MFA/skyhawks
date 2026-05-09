@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { getContactInfo, submitMessage } from '../api'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -11,12 +12,19 @@ gsap.registerPlugin(ScrollTrigger)
 
 export default function Scene6Contact() {
   const sectionRef = useRef()
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  })
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState('')
+  const [contactInfo, setContactInfo] = useState({
+    email: 'team@skyhawks.edu',
+    phone: '+1 (555) 0123-4567',
+    location: 'Engineering Building, Room 405',
+    instagram: '', twitter: '', youtube: '', linkedin: '',
+  })
+
+  useEffect(() => {
+    getContactInfo().then(data => { if (data && data.email) setContactInfo(data) }).catch(() => {})
+  }, [])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -86,11 +94,21 @@ export default function Scene6Contact() {
     return () => ctx.revert()
   }, [])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 3000)
-    setFormData({ name: '', email: '', message: '' })
+    setError('')
+    try {
+      const result = await submitMessage(formData)
+      if (result.success) {
+        setSubmitted(true)
+        setTimeout(() => setSubmitted(false), 3000)
+        setFormData({ name: '', email: '', message: '' })
+      } else {
+        setError(result.error || 'Failed to send message')
+      }
+    } catch {
+      setError('Network error. Please try again.')
+    }
   }
 
   return (
@@ -182,7 +200,7 @@ export default function Scene6Contact() {
                   </svg>
                 ),
                 label: 'Email',
-                value: 'team@skyhawks.edu',
+                value: contactInfo.email,
               },
               {
                 icon: (
@@ -191,7 +209,7 @@ export default function Scene6Contact() {
                   </svg>
                 ),
                 label: 'Phone',
-                value: '+1 (555) 0123-4567',
+                value: contactInfo.phone,
               },
               {
                 icon: (
@@ -201,7 +219,7 @@ export default function Scene6Contact() {
                   </svg>
                 ),
                 label: 'Location',
-                value: 'Engineering Building, Room 405',
+                value: contactInfo.location,
               },
             ].map((item) => (
               <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -390,6 +408,12 @@ export default function Scene6Contact() {
                   style={{ resize: 'vertical', minHeight: '120px' }}
                 />
               </div>
+
+              {error && (
+                <div style={{ color: '#f87171', fontSize: '0.82rem', padding: '0.5rem 0.75rem', background: 'rgba(248,113,113,0.1)', borderRadius: '8px', border: '1px solid rgba(248,113,113,0.3)' }}>
+                  {error}
+                </div>
+              )}
 
               <button type="submit" className="contact-btn">
                 {submitted ? '✓ MESSAGE SENT' : 'SEND MESSAGE'}
