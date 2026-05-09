@@ -1,0 +1,4 @@
+// Admin Panel - Skyhawks
+// API_BASE: فاضية = نفس الـ origin (يشتغل على Vercel وعلى Local بدون تعديل)
+// لما السيرفر يخدم /admin، كل requests بتروح لنفس الـ domain تلقائياً
+const API = ''   // ← مش هنحتاج نكتب http://localhost:5000 أو أي URL ثاني

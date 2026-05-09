@@ -1,5 +1,6 @@
 // ─── CONFIG ────────────────────────────────────────────────────────────────
-const API = 'http://localhost:5000'
+// استخدام '' يعني "نفس الـ origin" - يشتغل تلقائياً على localhost وعلى Vercel
+const API = ''
 let TOKEN = localStorage.getItem('skyhawks_token') || ''
 
 // ─── UTILS ─────────────────────────────────────────────────────────────────
