@@ -1,25 +1,19 @@
 {
-  "functions": {
-    "api/**/*.js": {
-      "includeFiles": "backend/admin/**"
+  "version": 2,
+  "builds": [
+    {
+      "src": "backend/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
     }
-  },
+  ],
   "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/index.js"
-    },
-    {
-      "source": "/admin",
-      "destination": "/api/index.js"
-    },
-    {
-      "source": "/admin/(.*)",
-      "destination": "/api/index.js"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/api/(.*)", "destination": "/backend/server.js" },
+    { "source": "/admin(.*)", "destination": "/backend/server.js" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
