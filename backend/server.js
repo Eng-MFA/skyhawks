@@ -15,6 +15,8 @@ if (process.env.NODE_ENV !== 'production') {
   }
 }
 
+console.log("URI Loaded:", process.env.MONGODB_URI ? "Yes" : "No");
+
 const express  = require('express')
 const cors     = require('cors')
 const path     = require('path')
@@ -65,7 +67,7 @@ app.use(async (req, res, next) => {
   } catch (err) {
     console.error('[DB] Connection error:', err.message)
     res.status(503).json({
-      error: 'Database unavailable',
+      error: `Database Error: ${err.message}`,
       detail: err.message,
     })
   }

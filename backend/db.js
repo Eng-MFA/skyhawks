@@ -31,7 +31,7 @@ async function connectDB() {
       // ─── Serverless-friendly options ──────────────────────────────────
       bufferCommands: false,          // لا تحتفظ بـ queries لو الاتصال فشل
       maxPoolSize: 10,                // حد أقصى للـ connections في الـ pool
-      serverSelectionTimeoutMS: 10000,// وقت انتظار قبل ما يفشل
+      serverSelectionTimeoutMS: 5000,// وقت انتظار قبل ما يفشل
       socketTimeoutMS: 45000,         // وقت الـ socket
       family: 4,                      // IPv4 فقط (بيتجنب مشاكل IPv6 على بعض hosts)
     }

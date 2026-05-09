@@ -35,6 +35,7 @@ router.post('/login', async (req, res) => {
       user: { username, role: 'admin' },
     })
   } catch (err) {
+    console.error("Login Error:", err)
     res.status(500).json({ error: err.message })
   }
 })
