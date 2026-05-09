@@ -66,7 +66,7 @@ export default function Scene5Sponsors() {
         {sponsors.map((sponsor, i) => (
           <div key={sponsor._id || sponsor.name} ref={(el) => (logosRef.current[i] = el)} className="sponsor-logo" style={{ opacity: 0, flexDirection: 'column', gap: '0.5rem' }}>
             {sponsor.logo
-              ? <img src={`${API_URL}${sponsor.logo}`} alt={sponsor.name} style={{ width: '64px', height: '64px', objectFit: 'contain', marginBottom: '0.25rem' }} />
+              ? <img src={sponsor.logo.startsWith('data:') || sponsor.logo.startsWith('http') ? sponsor.logo : `${API_URL}${sponsor.logo}`} alt={sponsor.name} style={{ width: '64px', height: '64px', objectFit: 'contain', marginBottom: '0.25rem' }} />
               : <div style={{ fontSize: '2rem', marginBottom: '0.25rem' }}>{sponsor.icon}</div>
             }
             <div className="font-display" style={{ fontSize: '0.85rem', fontWeight: 600, color: '#f8fafc', textAlign: 'center' }}>{sponsor.name}</div>

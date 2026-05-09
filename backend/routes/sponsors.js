@@ -6,17 +6,7 @@ const fs = require('fs')
 const Sponsor = require('../models/Sponsor')
 const auth = require('../middleware/auth')
 
-const os = require('os')
-// استخدم /tmp كفولدر مؤقت لأن Vercel لا يسمح بإنشاء فولدرات في بيئة Serverless
-const uploadDir = os.tmpdir()
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadDir),
-  filename: (req, file, cb) => {
-    const unique = Date.now() + '-' + Math.round(Math.random() * 1e9)
-    cb(null, 'sponsor-' + unique + path.extname(file.originalname))
-  },
-})
+const storage = multer.memoryStorage()
 
 const upload = multer({
   storage,
@@ -45,7 +35,10 @@ router.get('/', async (req, res) => {
 router.post('/', auth, upload.single('logo'), async (req, res) => {
   try {
     const data = { ...req.body }
-    if (req.file) data.logo = `/uploads/sponsors/${req.file.filename}`
+    if (req.file) {
+      const b64 = req.file.buffer.toString('base64');
+      data.logo = `data:${req.file.mimetype};base64,${b64}`;
+    }
     const sponsor = new Sponsor(data)
     await sponsor.save()
     res.status(201).json(sponsor)
@@ -58,7 +51,10 @@ router.post('/', auth, upload.single('logo'), async (req, res) => {
 router.put('/:id', auth, upload.single('logo'), async (req, res) => {
   try {
     const data = { ...req.body }
-    if (req.file) data.logo = `/uploads/sponsors/${req.file.filename}`
+    if (req.file) {
+      const b64 = req.file.buffer.toString('base64');
+      data.logo = `data:${req.file.mimetype};base64,${b64}`;
+    }
     const sponsor = await Sponsor.findByIdAndUpdate(req.params.id, data, { new: true })
     if (!sponsor) return res.status(404).json({ error: 'Sponsor not found' })
     res.json(sponsor)
@@ -72,10 +68,7 @@ router.delete('/:id', auth, async (req, res) => {
   try {
     const sponsor = await Sponsor.findByIdAndDelete(req.params.id)
     if (!sponsor) return res.status(404).json({ error: 'Sponsor not found' })
-    if (sponsor.logo && sponsor.logo.startsWith('/uploads/')) {
-      const fp = path.join(__dirname, '..', sponsor.logo)
-      if (fs.existsSync(fp)) fs.unlinkSync(fp)
-    }
+    // Base64 string doesn't need file deletion
     res.json({ success: true })
   } catch (err) {
     res.status(500).json({ error: err.message })

@@ -123,7 +123,7 @@ export default function Scene6Contact() {
       }}
     >
       {/* Section Header */}
-      <div className="contact-title" style={{ textAlign: 'center', marginBottom: '5rem', opacity: 0 }}>
+      <div className="contact-title" style={{ textAlign: 'center', marginBottom: '5rem' }}>
         <div
           className="font-mono"
           style={{
@@ -162,7 +162,7 @@ export default function Scene6Contact() {
         }}
       >
         {/* Left - Contact Info */}
-        <div className="contact-info" style={{ opacity: 0 }}>
+        <div className="contact-info">
           <h3
             className="font-display"
             style={{
@@ -319,7 +319,7 @@ export default function Scene6Contact() {
         </div>
 
         {/* Right - Contact Form */}
-        <div className="contact-form-container" style={{ opacity: 0 }}>
+        <div className="contact-form-container">
           <form
             onSubmit={handleSubmit}
             className="glass-card"

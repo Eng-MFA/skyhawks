@@ -6,17 +6,7 @@ const fs = require('fs')
 const Team = require('../models/Team')
 const auth = require('../middleware/auth')
 
-const os = require('os')
-// استخدم /tmp كفولدر مؤقت لأن Vercel لا يسمح بإنشاء فولدرات في بيئة Serverless
-const uploadDir = os.tmpdir()
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadDir),
-  filename: (req, file, cb) => {
-    const unique = Date.now() + '-' + Math.round(Math.random() * 1e9)
-    cb(null, 'team-' + unique + path.extname(file.originalname))
-  },
-})
+const storage = multer.memoryStorage()
 
 const upload = multer({
   storage,
@@ -46,7 +36,8 @@ router.post('/', auth, upload.single('photo'), async (req, res) => {
   try {
     const data = { ...req.body }
     if (req.file) {
-      data.photo = `/uploads/team/${req.file.filename}`
+      const b64 = req.file.buffer.toString('base64');
+      data.photo = `data:${req.file.mimetype};base64,${b64}`;
     }
     const member = new Team(data)
     await member.save()
@@ -61,7 +52,8 @@ router.put('/:id', auth, upload.single('photo'), async (req, res) => {
   try {
     const data = { ...req.body }
     if (req.file) {
-      data.photo = `/uploads/team/${req.file.filename}`
+      const b64 = req.file.buffer.toString('base64');
+      data.photo = `data:${req.file.mimetype};base64,${b64}`;
     }
     const member = await Team.findByIdAndUpdate(req.params.id, data, { new: true, runValidators: true })
     if (!member) return res.status(404).json({ error: 'Team member not found' })
@@ -76,11 +68,7 @@ router.delete('/:id', auth, async (req, res) => {
   try {
     const member = await Team.findByIdAndDelete(req.params.id)
     if (!member) return res.status(404).json({ error: 'Team member not found' })
-    // Remove photo file if exists
-    if (member.photo && member.photo.startsWith('/uploads/')) {
-      const filePath = path.join(__dirname, '..', member.photo)
-      if (fs.existsSync(filePath)) fs.unlinkSync(filePath)
-    }
+    // Base64 string doesn't need file deletion
     res.json({ success: true })
   } catch (err) {
     res.status(500).json({ error: err.message })

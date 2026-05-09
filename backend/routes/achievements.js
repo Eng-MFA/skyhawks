@@ -6,17 +6,7 @@ const fs = require('fs')
 const Achievement = require('../models/Achievement')
 const auth = require('../middleware/auth')
 
-const os = require('os')
-// استخدم /tmp كفولدر مؤقت لأن Vercel لا يسمح بإنشاء فولدرات في بيئة Serverless
-const uploadDir = os.tmpdir()
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadDir),
-  filename: (req, file, cb) => {
-    const unique = Date.now() + '-' + Math.round(Math.random() * 1e9)
-    cb(null, 'ach-' + unique + path.extname(file.originalname))
-  },
-})
+const storage = multer.memoryStorage()
 
 const upload = multer({
   storage,
@@ -79,15 +69,7 @@ router.delete('/:id', auth, async (req, res) => {
   try {
     const ach = await Achievement.findByIdAndDelete(req.params.id)
     if (!ach) return res.status(404).json({ error: 'Achievement not found' })
-    // Clean up images
-    if (ach.images && ach.images.length > 0) {
-      ach.images.forEach(imgPath => {
-        if (imgPath.startsWith('/uploads/')) {
-          const fp = path.join(__dirname, '..', imgPath)
-          if (fs.existsSync(fp)) fs.unlinkSync(fp)
-        }
-      })
-    }
+    // Clean up images (Base64 strings don't need fs deletion)
     res.json({ success: true })
   } catch (err) {
     res.status(500).json({ error: err.message })
@@ -100,7 +82,10 @@ router.post('/:id/images', auth, upload.array('images', 20), async (req, res) =>
     const ach = await Achievement.findById(req.params.id)
     if (!ach) return res.status(404).json({ error: 'Achievement not found' })
 
-    const newImages = req.files.map(f => `/uploads/achievements/${f.filename}`)
+    const newImages = req.files.map(f => {
+      const b64 = f.buffer.toString('base64');
+      return `data:${f.mimetype};base64,${b64}`;
+    });
     ach.images = [...(ach.images || []), ...newImages]
     await ach.save()
 
@@ -120,11 +105,7 @@ router.delete('/:id/images', auth, async (req, res) => {
     ach.images = ach.images.filter(img => img !== imagePath)
     await ach.save()
 
-    // Delete file
-    if (imagePath.startsWith('/uploads/')) {
-      const fp = path.join(__dirname, '..', imagePath)
-      if (fs.existsSync(fp)) fs.unlinkSync(fp)
-    }
+    // Delete file (Base64 strings don't need fs deletion)
 
     res.json({ success: true, images: ach.images })
   } catch (err) {

@@ -95,7 +95,7 @@ export default function Scene4Achievements() {
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
               {modal.images.map((img, idx) => (
-                <img key={idx} src={`${API_URL}${img}`} alt={`Achievement ${idx + 1}`}
+                <img key={idx} src={img.startsWith('data:') || img.startsWith('http') ? img : `${API_URL}${img}`} alt={`Achievement ${idx + 1}`}
                   style={{ width: '100%', borderRadius: '10px', objectFit: 'cover', aspectRatio: '4/3' }} />
               ))}
             </div>

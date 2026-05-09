@@ -67,7 +67,7 @@ export default function Scene3Team() {
           <div key={member._id || member.name} ref={(el) => (cardsRef.current[i] = el)} className="team-card" style={{ opacity: 0, textAlign: 'center' }}>
             {/* Avatar or Photo */}
             {member.photo
-              ? <img src={`${API_URL}${member.photo}`} alt={member.name} className="team-avatar"
+              ? <img src={member.photo.startsWith('data:') || member.photo.startsWith('http') ? member.photo : `${API_URL}${member.photo}`} alt={member.name} className="team-avatar"
                   style={{ objectFit: 'cover', padding: 0, fontSize: 0 }} />
               : <div className="team-avatar">{member.initials}</div>
             }
