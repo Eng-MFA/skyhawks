@@ -6,9 +6,9 @@ const fs = require('fs')
 const Achievement = require('../models/Achievement')
 const auth = require('../middleware/auth')
 
-// Ensure uploads dir exists
-const uploadDir = path.join(__dirname, '..', 'uploads', 'achievements')
-if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true })
+const os = require('os')
+// استخدم /tmp كفولدر مؤقت لأن Vercel لا يسمح بإنشاء فولدرات في بيئة Serverless
+const uploadDir = os.tmpdir()
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadDir),

@@ -14,8 +14,8 @@ const Achievement = require('../models/Achievement')
 const Sponsor = require('../models/Sponsor')
 const { ContactInfo, Message } = require('../models/Contact')
 
-const backupUploadDir = path.join(__dirname, '..', 'uploads', 'backups')
-if (!fs.existsSync(backupUploadDir)) fs.mkdirSync(backupUploadDir, { recursive: true })
+const os = require('os')
+const backupUploadDir = os.tmpdir()
 
 const upload = multer({ dest: backupUploadDir })
 
