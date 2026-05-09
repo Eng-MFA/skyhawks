@@ -794,17 +794,38 @@ body {
    ============================================ */
 
 @media (max-width: 768px) {
-  .timeline-line {
-    left: 20px;
+  .timeline-line { left: 20px; }
+  .timeline-dot { left: 20px; }
+  
+  /* Text and Layout Adjustments */
+  .font-display { font-size: 85% !important; }
+  h1.font-display { font-size: clamp(2rem, 10vw, 3rem) !important; }
+  h2.font-display { font-size: clamp(1.5rem, 8vw, 2.5rem) !important; }
+  
+  /* Section Padding */
+  section { padding: 5rem 1rem 3rem !important; }
+  
+  /* Grids and Flex */
+  .team-card, .achievement-card, .spec-panel { padding: 1.5rem !important; }
+  
+  .stats-row { 
+    flex-direction: column !important; 
+    gap: 1.5rem !important; 
+    text-align: center;
   }
 
-  .timeline-dot {
-    left: 20px;
+  .navbar { padding: 1rem !important; }
+  
+  /* Scene 1 specifics */
+  #landing > div {
+    margin-left: 0 !important;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-
-  .spec-value {
-    font-size: 1.25rem;
-  }
+  
+  #landing p { text-align: center !important; }
 }
 
 /* Fade/slide animation helpers */

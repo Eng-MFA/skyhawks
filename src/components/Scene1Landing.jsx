@@ -182,11 +182,14 @@ export default function Scene1Landing() {
 
         {/* Stats row */}
         <div
+          className="stats-row"
           style={{
             display: 'flex',
             gap: '2.5rem',
             marginTop: '2.5rem',
             opacity: 0,
+            flexWrap: 'wrap',
+            justifyContent: 'center'
           }}
           ref={(el) => {
             if (el) {
