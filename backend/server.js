@@ -7,7 +7,13 @@
  *  3. nodemon    → nodemon server.js
  */
 
-require('dotenv').config()  // يقرأ .env لو موجود، ومش بيضر لو مش موجود (Vercel)
+if (process.env.NODE_ENV !== 'production') {
+  try {
+    require('dotenv').config()
+  } catch (err) {
+    console.log('dotenv not found, skipping')
+  }
+}
 
 const express  = require('express')
 const cors     = require('cors')
