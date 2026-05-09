@@ -36,7 +36,7 @@ async function connectDB() {
       family: 4,                      // IPv4 فقط (بيتجنب مشاكل IPv6 على بعض hosts)
     }
 
-    const uri = process.env.MONGODB_URI
+    let uri = process.env.MONGODB_URI
 
     if (!uri) {
       throw new Error(
@@ -45,6 +45,24 @@ async function connectDB() {
       )
     }
 
+    // تأمين وتشفير الباسورد تلقائياً لو فيه حروف خاصة مثل @
+    if (uri.startsWith('mongodb')) {
+      const match = uri.match(/:\/\/(.*?):(.*?)@/);
+      if (match) {
+        const username = match[1];
+        const rawPassword = match[2];
+        try {
+          // نفك التشفير الأول (عشان لو كان متأمن جاهز) وبعدين نشفره تاني بشكل سليم
+          const decodedPassword = decodeURIComponent(rawPassword);
+          const encodedPassword = encodeURIComponent(decodedPassword);
+          uri = uri.replace(`://${username}:${rawPassword}@`, `://${username}:${encodedPassword}@`);
+        } catch (e) {
+          console.error("Failed to parse URI password");
+        }
+      }
+    }
+
+    console.log("Connecting to DB...")
     cached.promise = mongoose.connect(uri, opts).then(m => m)
   }
 
