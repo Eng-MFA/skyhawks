@@ -5,7 +5,7 @@ import { getTeam } from '../api'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://skyhawks-backend.onrender.com'
+const API_URL = import.meta.env.VITE_API_URL || ''
 
 const DEFAULT_TEAM = [
   { name: 'Ahmed Hassan', role: 'Team Lead', roleClass: 'role-lead', initials: 'AH', description: 'Oversees all operations and competition strategy' },
@@ -24,7 +24,7 @@ export default function Scene3Team() {
   const [team, setTeam] = useState(DEFAULT_TEAM)
 
   useEffect(() => {
-    getTeam().then(data => { if (data && data.length > 0) setTeam(data) }).catch(() => {})
+    getTeam().then(data => { if (data) setTeam(data) }).catch(() => {})
   }, [])
 
   useEffect(() => {

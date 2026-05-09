@@ -5,7 +5,7 @@ import { getSponsors } from '../api'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://skyhawks-backend.onrender.com'
+const API_URL = import.meta.env.VITE_API_URL || ''
 
 const DEFAULT = [
   { name: 'TechCorp', tier: 'Platinum', color: '#C9A87C', icon: '💎' },
@@ -24,7 +24,7 @@ export default function Scene5Sponsors() {
   const [sponsors, setSponsors] = useState(DEFAULT)
 
   useEffect(() => {
-    getSponsors().then(data => { if (data && data.length > 0) setSponsors(data) }).catch(() => {})
+    getSponsors().then(data => { if (data) setSponsors(data) }).catch(() => {})
   }, [])
 
   useEffect(() => {

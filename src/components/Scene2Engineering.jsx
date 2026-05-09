@@ -27,8 +27,8 @@ export default function Scene2Engineering({ onHighlight }) {
   useEffect(() => {
     getEngineering()
       .then(({ specs: s, stats: st }) => {
-        if (s && s.length > 0) setSpecs(s)
-        if (st && st.length > 0) setStats(st)
+        if (s) setSpecs(s)
+        if (st) setStats(st)
       })
       .catch(() => {})
   }, [])
