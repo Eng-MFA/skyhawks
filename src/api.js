@@ -1,7 +1,12 @@
-const BASE_URL = import.meta.env.VITE_API_URL || ''
+const BASE_URL = import.meta.env.DEV ? 'http://localhost:5000' : ''
+console.log("🚀 Current API BASE_URL is:", BASE_URL === '' ? "Relative Path (Vercel)" : BASE_URL);
 
 export const api = {
-  get: (path) => fetch(`${BASE_URL}${path}${path.includes('?') ? '&' : '?'}t=${Date.now()}`, { cache: 'no-store' }).then(r => r.json()),
+  get: (path) => {
+    const url = `${BASE_URL}${path}${path.includes('?') ? '&' : '?'}t=${Date.now()}`;
+    console.log(`🌐 Fetching data from: ${url}`);
+    return fetch(url, { cache: 'no-store' }).then(r => r.json());
+  },
   post: (path, body) => fetch(`${BASE_URL}${path}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

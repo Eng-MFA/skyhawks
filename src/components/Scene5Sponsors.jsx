@@ -5,7 +5,7 @@ import { getSponsors } from '../api'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const API_URL = import.meta.env.VITE_API_URL || ''
+const API_URL = import.meta.env.DEV ? 'http://localhost:5000' : ''
 
 const DEFAULT = [
   { name: 'TechCorp', tier: 'Platinum', color: '#C9A87C', icon: '💎' },
@@ -24,7 +24,9 @@ export default function Scene5Sponsors() {
   const [sponsors, setSponsors] = useState(DEFAULT)
 
   useEffect(() => {
-    getSponsors().then(data => { if (data) setSponsors(data) }).catch(() => {})
+    getSponsors().then(data => { 
+      if (data && !data.error) setSponsors(data) 
+    }).catch(err => console.error("Frontend Fetch Error (Sponsors):", err))
   }, [])
 
   useEffect(() => {

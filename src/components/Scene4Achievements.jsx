@@ -5,7 +5,7 @@ import { getAchievements } from '../api'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const API_URL = import.meta.env.VITE_API_URL || ''
+const API_URL = import.meta.env.DEV ? 'http://localhost:5000' : ''
 
 const DEFAULT = [
   { year: '2024', title: 'International Drone Racing Championship', description: '1st Place — Autonomous category. Fastest lap time of 42.3 seconds.', award: '🥇 Gold Medal', color: '#C47A52' },
@@ -23,7 +23,9 @@ export default function Scene4Achievements() {
   const [modal, setModal] = useState(null) // { ach }
 
   useEffect(() => {
-    getAchievements().then(data => { if (data) setAchievements(data) }).catch(() => {})
+    getAchievements().then(data => { 
+      if (data && !data.error) setAchievements(data) 
+    }).catch(err => console.error("Frontend Fetch Error (Achievements):", err))
   }, [])
 
   useEffect(() => {

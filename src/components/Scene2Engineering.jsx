@@ -27,10 +27,10 @@ export default function Scene2Engineering({ onHighlight }) {
   useEffect(() => {
     getEngineering()
       .then(({ specs: s, stats: st }) => {
-        if (s) setSpecs(s)
-        if (st) setStats(st)
+        if (s && !s.error) setSpecs(s)
+        if (st && !st.error) setStats(st)
       })
-      .catch(() => {})
+      .catch(err => console.error("Frontend Fetch Error (Engineering):", err))
   }, [])
 
   useEffect(() => {
