@@ -23,7 +23,11 @@ export default function Scene6Contact() {
   })
 
   useEffect(() => {
-    getContactInfo().then(data => { if (data && data.email) setContactInfo(data) }).catch(() => {})
+    getContactInfo().then(data => { 
+      if (data) {
+        setContactInfo(prev => ({ ...prev, ...data }))
+      }
+    }).catch(() => {})
   }, [])
 
   useEffect(() => {
@@ -41,7 +45,7 @@ export default function Scene6Contact() {
             ease: 'power3.out',
             scrollTrigger: {
               trigger: title,
-              start: 'top 85%',
+              start: 'top 95%',
               toggleActions: 'play none none reverse',
             },
           }
@@ -62,7 +66,7 @@ export default function Scene6Contact() {
             ease: 'power3.out',
             scrollTrigger: {
               trigger: form,
-              start: 'top 85%',
+              start: 'top 95%',
               toggleActions: 'play none none reverse',
             },
           }
@@ -83,7 +87,7 @@ export default function Scene6Contact() {
             ease: 'power3.out',
             scrollTrigger: {
               trigger: info,
-              start: 'top 85%',
+              start: 'top 95%',
               toggleActions: 'play none none reverse',
             },
           }
@@ -305,15 +309,22 @@ export default function Scene6Contact() {
                     </svg>
                   ),
                 },
-              ].map((social) => (
-                <div
-                  key={social.name}
-                  className="social-icon"
-                  title={social.name}
-                >
-                  {social.svg}
-                </div>
-              ))}
+              ].map((social) => {
+                const url = contactInfo[social.name.toLowerCase()];
+                return (
+                  <a
+                    key={social.name}
+                    href={url || '#'}
+                    target={url ? '_blank' : '_self'}
+                    rel="noopener noreferrer"
+                    className="social-icon"
+                    title={social.name}
+                    style={{ opacity: url ? 1 : 0.5 }}
+                  >
+                    {social.svg}
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>
