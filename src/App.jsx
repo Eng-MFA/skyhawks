@@ -51,10 +51,20 @@ export default function App() {
           trigger: '#engineering',
           start: 'top 80%',
           end: 'bottom 20%',
-          scrub: 1,
+          scrub: true,
           onUpdate: () => {
             setDisassemble(proxy.progress)
           },
+          onLeave: () => {
+            gsap.killTweensOf(proxy)
+            proxy.progress = 0
+            setDisassemble(0)
+          },
+          onLeaveBack: () => {
+            gsap.killTweensOf(proxy)
+            proxy.progress = 0
+            setDisassemble(0)
+          }
         }
       })
       .to(proxy, { progress: 1, duration: 0.25, ease: 'power1.inOut' })

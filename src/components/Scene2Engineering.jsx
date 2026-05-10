@@ -29,6 +29,7 @@ export default function Scene2Engineering({ onHighlight }) {
       .then(({ specs: s, stats: st }) => {
         if (s && !s.error) setSpecs(s)
         if (st && !st.error) setStats(st)
+        setTimeout(() => ScrollTrigger.refresh(), 100)
       })
       .catch(err => console.error("Frontend Fetch Error (Engineering):", err))
   }, [])
