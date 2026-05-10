@@ -6,6 +6,31 @@ let TOKEN = localStorage.getItem('skyhawks_token') || ''
 // ─── UTILS ─────────────────────────────────────────────────────────────────
 const $ = id => document.getElementById(id)
 
+function resetAllSubmitButtons() {
+  document.querySelectorAll('form button[type="submit"]').forEach(btn => {
+    if (btn.dataset.originalText) {
+      btn.textContent = btn.dataset.originalText;
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.style.cursor = 'pointer';
+      delete btn.dataset.originalText;
+    }
+  });
+}
+
+document.addEventListener('submit', (e) => {
+  if (e.target.tagName === 'FORM') {
+    const btn = e.target.querySelector('button[type="submit"]');
+    if (btn && !btn.dataset.originalText) {
+      btn.dataset.originalText = btn.textContent;
+      btn.textContent = 'Saving...';
+      btn.disabled = true;
+      btn.style.opacity = '0.7';
+      btn.style.cursor = 'wait';
+    }
+  }
+});
+
 function toast(msg, type = 'success') {
   const el = $('toast')
   el.textContent = (type === 'success' ? '✓ ' : '✗ ') + msg
@@ -22,10 +47,14 @@ async function api(method, path, body, isForm = false) {
     if (isForm) opts.body = body
     else { opts.headers['Content-Type'] = 'application/json'; opts.body = JSON.stringify(body) }
   }
-  const res = await fetch(API + path, opts)
-  const data = await res.json().catch(() => ({}))
-  if (!res.ok) throw new Error(data.error || 'Request failed')
-  return data
+  try {
+    const res = await fetch(API + path, opts)
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) throw new Error(data.error || 'Request failed')
+    return data
+  } finally {
+    resetAllSubmitButtons()
+  }
 }
 
 // ─── AUTH ───────────────────────────────────────────────────────────────────
