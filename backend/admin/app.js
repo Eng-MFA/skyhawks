@@ -125,6 +125,21 @@ document.querySelectorAll('.nav-item').forEach(item => {
 function openModal(id) { $(id).style.display = 'flex' }
 function closeModal(id) { $(id).style.display = 'none' }
 
+function openAddModal(modalId, formId, title) {
+  const form = $(formId)
+  if (form) {
+    form.reset()
+    if (form._id) form._id.value = ''
+  }
+  if (modalId === 'eng-spec-modal') {
+    const list = $('spec-details-list')
+    if (list) list.innerHTML = ''
+  }
+  const titleEl = $(modalId + '-title')
+  if (titleEl) titleEl.textContent = title
+  openModal(modalId)
+}
+
 document.querySelectorAll('.modal-overlay').forEach(m => {
   m.addEventListener('click', e => { if (e.target === m) m.style.display = 'none' })
 })

@@ -61,8 +61,8 @@
       <div class="panel-header">
         <h2>⚙️ Engineering</h2>
         <div class="header-actions">
-          <button class="btn-primary" onclick="openModal('eng-spec-modal')">+ Add Spec</button>
-          <button class="btn-secondary" onclick="openModal('eng-stat-modal')">+ Add Stat</button>
+          <button class="btn-primary" onclick="openAddModal('eng-spec-modal', 'eng-spec-form', 'Add Spec Card')">+ Add Spec</button>
+          <button class="btn-secondary" onclick="openAddModal('eng-stat-modal', 'eng-stat-form', 'Add Stat')">+ Add Stat</button>
         </div>
       </div>
       <h3 class="sub-heading">Spec Cards</h3>
@@ -74,7 +74,7 @@
     <div id="section-team" class="section-panel">
       <div class="panel-header">
         <h2>👥 Team</h2>
-        <button class="btn-primary" onclick="openModal('team-modal')">+ Add Member</button>
+        <button class="btn-primary" onclick="openAddModal('team-modal', 'team-form', 'Add Team Member')">+ Add Member</button>
       </div>
       <div id="team-list" class="cards-grid"></div>
     </div>
@@ -82,7 +82,7 @@
     <div id="section-achievements" class="section-panel">
       <div class="panel-header">
         <h2>🏆 Achievements</h2>
-        <button class="btn-primary" onclick="openModal('ach-modal')">+ Add Achievement</button>
+        <button class="btn-primary" onclick="openAddModal('ach-modal', 'ach-form', 'Add Achievement')">+ Add Achievement</button>
       </div>
       <div id="ach-list" class="cards-grid"></div>
     </div>
@@ -90,7 +90,7 @@
     <div id="section-sponsors" class="section-panel">
       <div class="panel-header">
         <h2>💎 Sponsors</h2>
-        <button class="btn-primary" onclick="openModal('sponsor-modal')">+ Add Sponsor</button>
+        <button class="btn-primary" onclick="openAddModal('sponsor-modal', 'sponsor-form', 'Add Sponsor')">+ Add Sponsor</button>
       </div>
       <div id="sponsors-list" class="cards-grid"></div>
     </div>
