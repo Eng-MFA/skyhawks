@@ -30,71 +30,7 @@ export default function Scene6Contact() {
     }).catch(() => {})
   }, [])
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Title animation
-      const title = sectionRef.current?.querySelector('.contact-title')
-      if (title) {
-        gsap.fromTo(
-          title,
-          { opacity: 0, y: 50 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: title,
-              start: 'top bottom',
-              toggleActions: 'play none none reverse',
-            },
-          }
-        )
-      }
 
-      // Form animation
-      const form = sectionRef.current?.querySelector('.contact-form-container')
-      if (form) {
-        gsap.fromTo(
-          form,
-          { opacity: 0, y: 60 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: form,
-              start: 'top bottom',
-              toggleActions: 'play none none reverse',
-            },
-          }
-        )
-      }
-
-      // Info cards animation
-      const info = sectionRef.current?.querySelector('.contact-info')
-      if (info) {
-        gsap.fromTo(
-          info,
-          { opacity: 0, x: -60 },
-          {
-            opacity: 1,
-            x: 0,
-            duration: 1,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: info,
-              start: 'top bottom',
-              toggleActions: 'play none none reverse',
-            },
-          }
-        )
-      }
-    }, sectionRef)
-
-    return () => ctx.revert()
-  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()

@@ -27,7 +27,6 @@ export default function App() {
   const [loading, setLoading] = useState(true)
   const [disassemble, setDisassemble] = useState(0)
   const [highlightPart, setHighlightPart] = useState(null)
-  const [landed, setLanded] = useState(false)
   const mainRef = useRef()
 
   // Handle loading complete
@@ -61,14 +60,6 @@ export default function App() {
       .to(proxy, { progress: 1, duration: 0.25, ease: 'power1.inOut' })
       .to(proxy, { progress: 1, duration: 0.5 }) // hold
       .to(proxy, { progress: 0, duration: 0.25, ease: 'power1.inOut' })
-
-      // Drone landing tied to contact section
-      ScrollTrigger.create({
-        trigger: '#contact',
-        start: 'top 50%',
-        onEnter: () => setLanded(true),
-        onLeaveBack: () => setLanded(false),
-      })
     }, mainRef)
 
     return () => ctx.revert()
@@ -83,7 +74,6 @@ export default function App() {
       <DroneCanvas
         disassemble={disassemble}
         highlightPart={highlightPart}
-        landed={landed}
       />
 
       {/* Main scrollable content */}

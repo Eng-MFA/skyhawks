@@ -21,6 +21,7 @@ export default function Scene4Achievements() {
   const cardsRef = useRef([])
   const [achievements, setAchievements] = useState(DEFAULT)
   const [modal, setModal] = useState(null) // { ach }
+  const [currentImgIdx, setCurrentImgIdx] = useState(0)
 
   useEffect(() => {
     getAchievements().then(data => { 
@@ -72,7 +73,7 @@ export default function Scene4Achievements() {
                 <h3 className="font-display" style={{ fontSize: '1.1rem', fontWeight: 700, color: '#f8fafc', marginBottom: '0.5rem' }}>{ach.title}</h3>
                 <p style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', lineHeight: 1.6 }}>{ach.description}</p>
                 {ach.images && ach.images.length > 0 && (
-                  <button onClick={() => setModal(ach)}
+                  <button onClick={() => { setModal(ach); setCurrentImgIdx(0); }}
                     style={{ marginTop: '1rem', padding: '0.4rem 1rem', background: 'rgba(201,168,124,0.12)', border: '1px solid rgba(201,168,124,0.35)', borderRadius: '8px', color: '#C9A87C', fontSize: '0.78rem', cursor: 'pointer', fontWeight: 600, letterSpacing: '0.05em' }}>
                     More Information
                   </button>
@@ -88,16 +89,28 @@ export default function Scene4Achievements() {
         <div onClick={() => setModal(null)}
           style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
           <div onClick={e => e.stopPropagation()}
-            style={{ background: '#1a1a2e', border: '1px solid rgba(201,168,124,0.3)', borderRadius: '16px', padding: '2rem', maxWidth: '700px', width: '100%', maxHeight: '80vh', overflowY: 'auto' }}>
+            style={{ background: '#1a1a2e', border: '1px solid rgba(201,168,124,0.3)', borderRadius: '16px', padding: '2rem', maxWidth: '800px', width: '100%', display: 'flex', flexDirection: 'column' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
               <h3 style={{ color: '#f8fafc', fontWeight: 700, fontSize: '1.1rem' }}>{modal.title}</h3>
               <button onClick={() => setModal(null)} style={{ background: 'none', border: 'none', color: '#9CA3AF', cursor: 'pointer', fontSize: '1.5rem' }}>×</button>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 200px), 1fr))', gap: '1rem' }}>
-              {modal.images.map((img, idx) => (
-                <img key={idx} src={img.startsWith('data:') || img.startsWith('http') ? img : `${API_URL}${img}`} alt={`Achievement ${idx + 1}`}
-                  style={{ width: '100%', borderRadius: '10px', objectFit: 'cover', aspectRatio: '4/3' }} />
-              ))}
+            
+            <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', background: '#000', borderRadius: '10px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {modal.images && modal.images.length > 0 ? (
+                <>
+                  <img src={modal.images[currentImgIdx].startsWith('data:') || modal.images[currentImgIdx].startsWith('http') ? modal.images[currentImgIdx] : `${API_URL}${modal.images[currentImgIdx]}`} alt={`Achievement ${currentImgIdx + 1}`} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+                  
+                  {modal.images.length > 1 && (
+                    <>
+                      <button onClick={(e) => { e.stopPropagation(); setCurrentImgIdx(prev => (prev > 0 ? prev - 1 : modal.images.length - 1)) }} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', background: 'rgba(0,0,0,0.5)', color: 'white', border: 'none', borderRadius: '50%', width: '40px', height: '40px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem' }}>‹</button>
+                      <button onClick={(e) => { e.stopPropagation(); setCurrentImgIdx(prev => (prev < modal.images.length - 1 ? prev + 1 : 0)) }} style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', background: 'rgba(0,0,0,0.5)', color: 'white', border: 'none', borderRadius: '50%', width: '40px', height: '40px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem' }}>›</button>
+                      <div style={{ position: 'absolute', bottom: '10px', left: '50%', transform: 'translateX(-50%)', background: 'rgba(0,0,0,0.5)', color: 'white', padding: '4px 10px', borderRadius: '10px', fontSize: '0.8rem' }}>{currentImgIdx + 1} / {modal.images.length}</div>
+                    </>
+                  )}
+                </>
+              ) : (
+                <div style={{ color: '#9ca3af' }}>No images available</div>
+              )}
             </div>
           </div>
         </div>

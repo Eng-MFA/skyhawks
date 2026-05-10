@@ -327,16 +327,16 @@ function openAchImages(id, title, images) {
 }
 
 function renderAchImages(id, images) {
-  $('ach-images-grid').innerHTML = images.map(img => `
+  $('ach-images-grid').innerHTML = images.map((img, idx) => `
     <div class="img-wrap">
-      <img src="${API}${img}" alt="achievement"/>
-      <button class="img-remove" onclick="removeAchImage('${id}','${img}')">×</button>
+      <img src="${img.startsWith('data:') || img.startsWith('http') ? img : API + img}" alt="achievement"/>
+      <button class="img-remove" onclick="removeAchImage('${id}', ${idx})">×</button>
     </div>`).join('')
 }
 
-async function removeAchImage(id, imgPath) {
+async function removeAchImage(id, idx) {
   if (!confirm('Remove this image?')) return
-  const res = await api('DELETE', `/api/achievements/${id}/images`, { imagePath: imgPath })
+  const res = await api('DELETE', `/api/achievements/${id}/images`, { imageIndex: idx })
   renderAchImages(id, res.images || [])
   toast('Image removed'); loadAchievements()
 }

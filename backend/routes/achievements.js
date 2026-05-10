@@ -98,11 +98,15 @@ router.post('/:id/images', auth, upload.array('images', 20), async (req, res) =>
 /** DELETE /api/achievements/:id/images - Remove specific image from achievement */
 router.delete('/:id/images', auth, async (req, res) => {
   try {
-    const { imagePath } = req.body
+    const { imagePath, imageIndex } = req.body
     const ach = await Achievement.findById(req.params.id)
     if (!ach) return res.status(404).json({ error: 'Achievement not found' })
 
-    ach.images = ach.images.filter(img => img !== imagePath)
+    if (imageIndex !== undefined) {
+      ach.images.splice(imageIndex, 1)
+    } else {
+      ach.images = ach.images.filter(img => img !== imagePath)
+    }
     await ach.save()
 
     // Delete file (Base64 strings don't need fs deletion)
