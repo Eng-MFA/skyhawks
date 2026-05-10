@@ -23,11 +23,11 @@ export default function Scene6Contact() {
   })
 
   useEffect(() => {
-    getContactInfo().then(data => { 
+    getContactInfo().then(data => {
       if (data) {
         setContactInfo(prev => ({ ...prev, ...data }))
       }
-    }).catch(() => {})
+    }).catch(() => { })
   }, [])
 
 
@@ -399,7 +399,7 @@ export default function Scene6Contact() {
             color: 'var(--color-text-muted)',
           }}
         >
-          Engineered with ❤️ and caffeine
+          Faculty of Engineering, Zagazig University
         </div>
       </footer>
     </section>

@@ -21,11 +21,12 @@ const DEFAULT = [
 export default function Scene5Sponsors() {
   const sectionRef = useRef()
   const logosRef = useRef([])
+  logosRef.current = []
   const [sponsors, setSponsors] = useState(DEFAULT)
 
   useEffect(() => {
     getSponsors().then(data => { 
-      if (data && !data.error) setSponsors(data) 
+      if (data && !data.error && data.length > 0) setSponsors(data) 
     }).catch(err => console.error("Frontend Fetch Error (Sponsors):", err))
   }, [])
 
@@ -64,7 +65,7 @@ export default function Scene5Sponsors() {
 
       <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 150px), 1fr))', gap: '1.5rem' }}>
         {sponsors.map((sponsor, i) => (
-          <div key={sponsor._id || sponsor.name} ref={(el) => (logosRef.current[i] = el)} className="sponsor-logo" style={{ opacity: 0, flexDirection: 'column', gap: '0.5rem' }}>
+          <div key={sponsor._id || sponsor.name} ref={(el) => { if(el) logosRef.current[i] = el }} className="sponsor-logo" style={{ flexDirection: 'column', gap: '0.5rem' }}>
             {sponsor.logo
               ? <img src={sponsor.logo.startsWith('data:') || sponsor.logo.startsWith('http') ? sponsor.logo : `${API_URL}${sponsor.logo}`} alt={sponsor.name} style={{ width: '64px', height: '64px', objectFit: 'contain', marginBottom: '0.25rem' }} />
               : <div style={{ fontSize: '2rem', marginBottom: '0.25rem' }}>{sponsor.icon}</div>

@@ -157,7 +157,7 @@ function renderSpecs(specs) {
         ${(s.details||[]).map(d => `<span style="font-size:.7rem;padding:.15rem .5rem;background:rgba(201,168,124,.1);border-radius:5px;color:#C9A87C">${d.label}: ${d.value}</span>`).join('')}
       </div>
       <div class="card-actions">
-        <button class="btn-edit" onclick='editSpec(${JSON.stringify(s)})'>✏ Edit</button>
+        <button class="btn-edit" onclick='editSpec(${JSON.stringify(s).replace(/'/g, "&#39;")})'>✏ Edit</button>
         <button class="btn-danger" onclick="deleteSpec('${s._id}')">🗑 Delete</button>
       </div>
     </div>`).join('')
@@ -169,7 +169,7 @@ function renderStats(stats) {
       <div class="card-title" style="color:${s.color};font-size:1.4rem">${s.value}</div>
       <div class="card-sub">${s.label}</div>
       <div class="card-actions">
-        <button class="btn-edit" onclick='editStat(${JSON.stringify(s)})'>✏ Edit</button>
+        <button class="btn-edit" onclick='editStat(${JSON.stringify(s).replace(/'/g, "&#39;")})'>✏ Edit</button>
         <button class="btn-danger" onclick="deleteStat('${s._id}')">🗑 Delete</button>
       </div>
     </div>`).join('')
@@ -269,7 +269,7 @@ async function loadTeam() {
       <div class="card-sub">${m.description || ''}</div>
       ${m.linkedin ? `<div style="margin-top:.4rem;font-size:.72rem"><a href="${m.linkedin}" target="_blank" style="color:#4A9EBF">LinkedIn ↗</a></div>` : ''}
       <div class="card-actions" style="justify-content:center">
-        <button class="btn-edit" onclick='editMember(${JSON.stringify(m)})'>✏ Edit</button>
+        <button class="btn-edit" onclick='editMember(${JSON.stringify(m).replace(/'/g, "&#39;")})'>✏ Edit</button>
         <button class="btn-danger" onclick="deleteMember('${m._id}')">🗑 Delete</button>
       </div>
     </div>`).join('')
@@ -314,8 +314,8 @@ async function loadAchievements() {
       <div style="margin-top:.5rem;font-size:.78rem;color:${a.color}">${a.award}</div>
       <div style="margin-top:.4rem;font-size:.72rem;color:var(--text-muted)">${(a.images||[]).length} image(s)</div>
       <div class="card-actions">
-        <button class="btn-edit" onclick='editAch(${JSON.stringify(a)})'>✏ Edit</button>
-        <button class="btn-secondary" onclick="openAchImages('${a._id}','${a.title.replace(/'/g,'')}',${JSON.stringify(a.images||[])})">🖼 Images</button>
+        <button class="btn-edit" onclick='editAch(${JSON.stringify(a).replace(/'/g, "&#39;")})'>✏ Edit</button>
+        <button class="btn-secondary" onclick='openAchImagesObj(${JSON.stringify(a).replace(/'/g, "&#39;")})'>🖼 Images</button>
         <button class="btn-danger" onclick="deleteAch('${a._id}')">🗑 Delete</button>
       </div>
     </div>`).join('')
@@ -346,6 +346,10 @@ async function deleteAch(id) {
   if (!confirm('Delete?')) return
   await api('DELETE', `/api/achievements/${id}`)
   toast('Deleted'); loadAchievements()
+}
+
+function openAchImagesObj(a) {
+  openAchImages(a._id, a.title, a.images || [])
 }
 
 function openAchImages(id, title, images) {
@@ -395,7 +399,7 @@ async function loadSponsors() {
       <div class="card-badge" style="background:rgba(201,168,124,.1);color:${s.color}">${s.tier}</div>
       ${s.website ? `<div style="margin-top:.4rem;font-size:.72rem"><a href="${s.website}" target="_blank" style="color:#4A9EBF">${s.website}</a></div>` : ''}
       <div class="card-actions" style="justify-content:center">
-        <button class="btn-edit" onclick='editSponsor(${JSON.stringify(s)})'>✏ Edit</button>
+        <button class="btn-edit" onclick='editSponsor(${JSON.stringify(s).replace(/'/g, "&#39;")})'>✏ Edit</button>
         <button class="btn-danger" onclick="deleteSponsor('${s._id}')">🗑 Delete</button>
       </div>
     </div>`).join('')
