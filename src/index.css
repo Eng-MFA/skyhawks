@@ -404,15 +404,15 @@ body {
 }
 
 .team-avatar {
-  width: 80px;
-  height: 80px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--color-primary), var(--color-primary-deep));
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: 700;
   color: #07080C;
   margin: 0 auto 1rem;
