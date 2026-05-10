@@ -180,53 +180,7 @@ export default function Scene1Landing() {
           meets aerial innovation.
         </p>
 
-        {/* Stats row */}
-        <div
-          className="stats-row"
-          style={{
-            display: 'flex',
-            gap: '2.5rem',
-            marginTop: '2.5rem',
-            opacity: 0,
-            flexWrap: 'wrap',
-            justifyContent: 'center'
-          }}
-          ref={(el) => {
-            if (el) {
-              gsap.fromTo(
-                el,
-                { opacity: 0, y: 20 },
-                { opacity: 1, y: 0, duration: 0.8, delay: 2.8, ease: 'power2.out' }
-              )
-            }
-          }}
-        >
-          {[
-            { value: '15+', label: 'Team Members' },
-            { value: '8', label: 'Competitions' },
-            { value: '3x', label: 'Champions' },
-          ].map((stat) => (
-            <div key={stat.label}>
-              <div
-                className="font-display neon-text-green"
-                style={{ fontSize: '1.8rem', fontWeight: 800 }}
-              >
-                {stat.value}
-              </div>
-              <div
-                style={{
-                  fontSize: '0.75rem',
-                  color: 'var(--color-text-muted)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.1em',
-                  marginTop: '0.25rem',
-                }}
-              >
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </div>
+
       </div>
 
       {/* Scroll indicator */}
