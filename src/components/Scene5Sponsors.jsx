@@ -65,13 +65,19 @@ export default function Scene5Sponsors() {
 
       <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 150px), 1fr))', gap: '1.5rem' }}>
         {sponsors.map((sponsor, i) => (
-          <div key={sponsor._id || sponsor.name} ref={(el) => { if(el) logosRef.current[i] = el }} className="sponsor-logo" style={{ flexDirection: 'column', gap: '0.5rem' }}>
+          <div 
+            key={sponsor._id || sponsor.name} 
+            ref={(el) => { if(el) logosRef.current[i] = el }} 
+            className="sponsor-logo" 
+            style={{ flexDirection: 'column', gap: '0.5rem' }}
+            onClick={() => sponsor.website ? window.open(sponsor.website, '_blank') : null}
+          >
             {sponsor.logo
-              ? <img src={sponsor.logo.startsWith('data:') || sponsor.logo.startsWith('http') ? sponsor.logo : `${API_URL}${sponsor.logo}`} alt={sponsor.name} style={{ width: '64px', height: '64px', objectFit: 'contain', marginBottom: '0.25rem' }} />
-              : <div style={{ fontSize: '2rem', marginBottom: '0.25rem' }}>{sponsor.icon}</div>
+              ? <img src={sponsor.logo.startsWith('data:') || sponsor.logo.startsWith('http') ? sponsor.logo : `${API_URL}${sponsor.logo}`} alt={sponsor.name} style={{ width: '100%', height: '90px', objectFit: 'contain', marginBottom: '0.5rem' }} />
+              : <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>{sponsor.icon}</div>
             }
-            <div className="font-display" style={{ fontSize: '0.85rem', fontWeight: 600, color: '#f8fafc', textAlign: 'center' }}>{sponsor.name}</div>
-            <div style={{ fontSize: '0.6rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: sponsor.color, padding: '0.15rem 0.5rem', border: `1px solid ${sponsor.color}40`, borderRadius: '4px' }}>{sponsor.tier}</div>
+            <div className="font-display" style={{ fontSize: '0.9rem', fontWeight: 600, color: '#f8fafc', textAlign: 'center' }}>{sponsor.name}</div>
+            <div style={{ fontSize: '0.65rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: sponsor.color, padding: '0.2rem 0.6rem', border: `1px solid ${sponsor.color}40`, borderRadius: '4px' }}>{sponsor.tier}</div>
           </div>
         ))}
       </div>
