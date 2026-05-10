@@ -723,6 +723,22 @@ body {
   width: 100%;
 }
 
+.nav-desktop {
+  display: flex;
+}
+
+.nav-mobile-btn {
+  display: none;
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: var(--color-text);
+  align-items: center;
+  justify-content: center;
+}
+
 /* ============================================
    Canvas container
    ============================================ */
@@ -816,6 +832,9 @@ body {
 
   .navbar { padding: 1rem !important; }
   
+  .nav-desktop { display: none !important; }
+  .nav-mobile-btn { display: flex !important; }
+
   /* Scene 1 specifics */
   #landing > div {
     margin-left: 0 !important;

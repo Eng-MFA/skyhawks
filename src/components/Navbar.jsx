@@ -90,7 +90,7 @@ export default function Navbar() {
             alignItems: 'center',
             gap: '2rem',
           }}
-          className="hidden md:flex"
+          className="nav-desktop"
         >
           {navItems.map((item) => (
             <button
@@ -106,16 +106,8 @@ export default function Navbar() {
 
         {/* Mobile menu button */}
         <button
-          className="md:hidden"
+          className="nav-mobile-btn"
           onClick={() => setMobileOpen(!mobileOpen)}
-          style={{
-            background: 'none',
-            border: '1px solid var(--color-border)',
-            borderRadius: '8px',
-            padding: '0.5rem',
-            cursor: 'pointer',
-            color: 'var(--color-text)',
-          }}
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             {mobileOpen ? (
