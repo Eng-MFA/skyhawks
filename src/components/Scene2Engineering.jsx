@@ -66,7 +66,7 @@ export default function Scene2Engineering({ onHighlight }) {
         </p>
       </div>
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '2rem' }}>
         {specs.map((spec, i) => (
           <div key={spec._id || spec.part} ref={(el) => (cardsRef.current[i] = el)} className="spec-panel glass-card-hover"
             style={{ opacity: 0, cursor: 'pointer' }} onMouseEnter={() => onHighlight?.(spec.part)} onMouseLeave={() => onHighlight?.(null)}>
@@ -88,7 +88,7 @@ export default function Scene2Engineering({ onHighlight }) {
         ))}
       </div>
 
-      <div style={{ maxWidth: '1200px', margin: '5rem auto 0', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1.5rem' }}
+      <div style={{ maxWidth: '1200px', margin: '5rem auto 0', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 150px), 1fr))', gap: '1.5rem' }}
         ref={(el) => { if (el) { gsap.fromTo(el, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none reverse' } }) } }}>
         {stats.map((stat) => (
           <div key={stat.label} className="glass-card" style={{ padding: '1.5rem', textAlign: 'center' }}>

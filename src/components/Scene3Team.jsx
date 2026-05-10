@@ -62,7 +62,7 @@ export default function Scene3Team() {
         </p>
       </div>
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1.5rem' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 260px), 1fr))', gap: '1.5rem' }}>
         {team.map((member, i) => (
           <div key={member._id || member.name} ref={(el) => (cardsRef.current[i] = el)} className="team-card" style={{ opacity: 0, textAlign: 'center' }}>
             {/* Avatar or Photo */}

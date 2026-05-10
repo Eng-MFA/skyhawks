@@ -62,7 +62,7 @@ export default function Scene5Sponsors() {
         </p>
       </div>
 
-      <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1.5rem' }}>
+      <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 150px), 1fr))', gap: '1.5rem' }}>
         {sponsors.map((sponsor, i) => (
           <div key={sponsor._id || sponsor.name} ref={(el) => (logosRef.current[i] = el)} className="sponsor-logo" style={{ opacity: 0, flexDirection: 'column', gap: '0.5rem' }}>
             {sponsor.logo

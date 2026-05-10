@@ -46,15 +46,21 @@ export default function App() {
 
     const ctx = gsap.context(() => {
       // Drone disassembly tied to engineering section scroll
-      ScrollTrigger.create({
-        trigger: '#engineering',
-        start: 'top 80%',
-        end: 'bottom 20%',
-        scrub: 1,
-        onUpdate: (self) => {
-          setDisassemble(self.progress)
-        },
+      const proxy = { progress: 0 }
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '#engineering',
+          start: 'top 80%',
+          end: 'bottom 20%',
+          scrub: 1,
+          onUpdate: () => {
+            setDisassemble(proxy.progress)
+          },
+        }
       })
+      .to(proxy, { progress: 1, duration: 0.25, ease: 'power1.inOut' })
+      .to(proxy, { progress: 1, duration: 0.5 }) // hold
+      .to(proxy, { progress: 0, duration: 0.25, ease: 'power1.inOut' })
 
       // Drone landing tied to contact section
       ScrollTrigger.create({

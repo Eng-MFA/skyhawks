@@ -5,7 +5,7 @@ const ContactInfoSchema = new mongoose.Schema({
   phone: { type: String, default: '+1 (555) 0123-4567' },
   location: { type: String, default: 'Engineering Building, Room 405' },
   instagram: { type: String, default: '' },
-  twitter: { type: String, default: '' },
+  facebook: { type: String, default: '' },
   youtube: { type: String, default: '' },
   linkedin: { type: String, default: '' },
 }, { timestamps: true })

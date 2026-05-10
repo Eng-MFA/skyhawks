@@ -93,7 +93,7 @@ export default function Scene4Achievements() {
               <h3 style={{ color: '#f8fafc', fontWeight: 700, fontSize: '1.1rem' }}>{modal.title}</h3>
               <button onClick={() => setModal(null)} style={{ background: 'none', border: 'none', color: '#9CA3AF', cursor: 'pointer', fontSize: '1.5rem' }}>×</button>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 200px), 1fr))', gap: '1rem' }}>
               {modal.images.map((img, idx) => (
                 <img key={idx} src={img.startsWith('data:') || img.startsWith('http') ? img : `${API_URL}${img}`} alt={`Achievement ${idx + 1}`}
                   style={{ width: '100%', borderRadius: '10px', objectFit: 'cover', aspectRatio: '4/3' }} />

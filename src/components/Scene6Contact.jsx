@@ -19,7 +19,7 @@ export default function Scene6Contact() {
     email: 'team@skyhawks.edu',
     phone: '+1 (555) 0123-4567',
     location: 'Engineering Building, Room 405',
-    instagram: '', twitter: '', youtube: '', linkedin: '',
+    instagram: '', facebook: '', youtube: '', linkedin: '',
   })
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function Scene6Contact() {
             ease: 'power3.out',
             scrollTrigger: {
               trigger: title,
-              start: 'top 95%',
+              start: 'top bottom',
               toggleActions: 'play none none reverse',
             },
           }
@@ -62,11 +62,10 @@ export default function Scene6Contact() {
             opacity: 1,
             y: 0,
             duration: 1,
-            delay: 0.3,
             ease: 'power3.out',
             scrollTrigger: {
               trigger: form,
-              start: 'top 95%',
+              start: 'top bottom',
               toggleActions: 'play none none reverse',
             },
           }
@@ -83,11 +82,10 @@ export default function Scene6Contact() {
             opacity: 1,
             x: 0,
             duration: 1,
-            delay: 0.2,
             ease: 'power3.out',
             scrollTrigger: {
               trigger: info,
-              start: 'top 95%',
+              start: 'top bottom',
               toggleActions: 'play none none reverse',
             },
           }
@@ -160,7 +158,7 @@ export default function Scene6Contact() {
           maxWidth: '1100px',
           margin: '0 auto',
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))',
           gap: '3rem',
           alignItems: 'start',
         }}
@@ -286,10 +284,10 @@ export default function Scene6Contact() {
                   ),
                 },
                 {
-                  name: 'Twitter',
+                  name: 'Facebook',
                   svg: (
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                      <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
                     </svg>
                   ),
                 },
