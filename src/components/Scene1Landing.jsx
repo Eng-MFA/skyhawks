@@ -1,5 +1,8 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import { TextPlugin } from 'gsap/TextPlugin'
+
+gsap.registerPlugin(TextPlugin)
 
 /**
  * Scene1Landing - Hero section with team introduction
@@ -38,8 +41,13 @@ export default function Scene1Landing() {
         )
         .fromTo(
           descRef.current,
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
+          { opacity: 0, text: "" },
+          { 
+            opacity: 1, 
+            text: "Pushing the boundaries of autonomous flight. We design, build, and fly high-performance fixed-wing UAVs that compete on the world stage. Engineering excellence meets aerial innovation.", 
+            duration: 3, 
+            ease: 'none' 
+          },
           '-=0.4'
         )
         .fromTo(
@@ -171,13 +179,11 @@ export default function Scene1Landing() {
             lineHeight: 1.7,
             color: 'var(--color-text)',
             maxWidth: '480px',
+            minHeight: '100px',
             opacity: 0,
             textShadow: '0 1px 8px rgba(0,0,0,0.8)',
           }}
         >
-          Pushing the boundaries of autonomous flight. We design, build, and fly
-          high-performance fixed-wing UAVs that compete on the world stage. Engineering excellence
-          meets aerial innovation.
         </p>
 
 
