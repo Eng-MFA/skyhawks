@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { TextPlugin } from 'gsap/TextPlugin'
+import DisclaimerModal from './DisclaimerModal'
 
 gsap.registerPlugin(TextPlugin)
 
@@ -15,6 +16,24 @@ export default function Scene1Landing() {
   const descRef = useRef()
   const scrollRef = useRef()
   const logoRef = useRef()
+  const [showDisclaimer, setShowDisclaimer] = useState(false)
+
+  useEffect(() => {
+    // Check if user has seen disclaimer in this session or ever
+    const hasSeenDisclaimer = localStorage.getItem('skyhawks_disclaimer_seen');
+    if (!hasSeenDisclaimer) {
+      // Small delay for better UX
+      const timer = setTimeout(() => {
+        setShowDisclaimer(true);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const handleCloseDisclaimer = () => {
+    setShowDisclaimer(false);
+    localStorage.setItem('skyhawks_disclaimer_seen', 'true');
+  };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -186,7 +205,36 @@ export default function Scene1Landing() {
         >
         </p>
 
-
+        {/* Disclaimer Trigger Button */}
+        <button
+          onClick={() => setShowDisclaimer(true)}
+          style={{
+            marginTop: '2rem',
+            padding: '0.6rem 1.2rem',
+            backgroundColor: 'rgba(255, 68, 68, 0.1)',
+            border: '1px solid #ff4444',
+            color: '#ff4444',
+            borderRadius: '6px',
+            fontSize: '0.9rem',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            transition: 'all 0.3s ease',
+            opacity: 0,
+            animation: 'fadeIn 1s forwards 4s' // Fades in after main animations
+          }}
+          onMouseOver={(e) => {
+            e.target.style.backgroundColor = 'rgba(255, 68, 68, 0.2)';
+            e.target.style.boxShadow = '0 0 15px rgba(255, 68, 68, 0.3)';
+          }}
+          onMouseOut={(e) => {
+            e.target.style.backgroundColor = 'rgba(255, 68, 68, 0.1)';
+            e.target.style.boxShadow = 'none';
+          }}
+        >
+          ⚠️ Legal Disclaimer / تنبيه قانوني
+        </button>
       </div>
 
       {/* Scroll indicator */}
@@ -227,6 +275,8 @@ export default function Scene1Landing() {
           <circle cx="10" cy="10" r="2" fill="#C9A87C" />
         </svg>
       </div>
+
+      <DisclaimerModal isOpen={showDisclaimer} onClose={handleCloseDisclaimer} />
     </section>
   )
 }
