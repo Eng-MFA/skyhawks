@@ -11,6 +11,7 @@ import Scene3Team from './components/Scene3Team'
 import Scene4Achievements from './components/Scene4Achievements'
 import Scene5Sponsors from './components/Scene5Sponsors'
 import Scene6Contact from './components/Scene6Contact'
+import DisclaimerModal from './components/DisclaimerModal'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -27,7 +28,22 @@ export default function App() {
   const [loading, setLoading] = useState(true)
   const [disassemble, setDisassemble] = useState(0)
   const [highlightPart, setHighlightPart] = useState(null)
+  const [showDisclaimer, setShowDisclaimer] = useState(false)
   const mainRef = useRef()
+
+  // Show disclaimer once on first visit
+  useEffect(() => {
+    const seen = localStorage.getItem('skyhawks_disclaimer_seen')
+    if (!seen) {
+      const t = setTimeout(() => setShowDisclaimer(true), 500)
+      return () => clearTimeout(t)
+    }
+  }, [])
+
+  const handleCloseDisclaimer = () => {
+    setShowDisclaimer(false)
+    localStorage.setItem('skyhawks_disclaimer_seen', 'true')
+  }
 
   // Handle loading complete
   const handleLoadComplete = useCallback(() => {
@@ -91,7 +107,7 @@ export default function App() {
         <Navbar />
 
         {/* Scene 1: Landing / Hero */}
-        <Scene1Landing />
+        <Scene1Landing onOpenDisclaimer={() => setShowDisclaimer(true)} />
 
         {/* Scene 2: Engineering Breakdown */}
         <Scene2Engineering onHighlight={handleHighlight} />
@@ -108,6 +124,9 @@ export default function App() {
         {/* Scene 6: Contact */}
         <Scene6Contact />
       </main>
+
+      {/* Disclaimer Modal — rendered at root level to stay above everything */}
+      <DisclaimerModal isOpen={showDisclaimer} onClose={handleCloseDisclaimer} />
     </>
   )
 }

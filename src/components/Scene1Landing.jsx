@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { TextPlugin } from 'gsap/TextPlugin'
-import DisclaimerModal from './DisclaimerModal'
 
 gsap.registerPlugin(TextPlugin)
 
@@ -9,31 +8,13 @@ gsap.registerPlugin(TextPlugin)
  * Scene1Landing - Hero section with team introduction
  * Features animated text reveal, Skyhawks logo, and scroll indicator
  */
-export default function Scene1Landing() {
+export default function Scene1Landing({ onOpenDisclaimer }) {
   const containerRef = useRef()
   const titleRef = useRef()
   const subtitleRef = useRef()
   const descRef = useRef()
   const scrollRef = useRef()
   const logoRef = useRef()
-  const [showDisclaimer, setShowDisclaimer] = useState(false)
-
-  useEffect(() => {
-    // Check if user has seen disclaimer in this session or ever
-    const hasSeenDisclaimer = localStorage.getItem('skyhawks_disclaimer_seen');
-    if (!hasSeenDisclaimer) {
-      // Small delay for better UX
-      const timer = setTimeout(() => {
-        setShowDisclaimer(true);
-      }, 500);
-      return () => clearTimeout(timer);
-    }
-  }, []);
-
-  const handleCloseDisclaimer = () => {
-    setShowDisclaimer(false);
-    localStorage.setItem('skyhawks_disclaimer_seen', 'true');
-  };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -207,7 +188,7 @@ export default function Scene1Landing() {
 
         {/* Disclaimer Trigger Button */}
         <button
-          onClick={() => setShowDisclaimer(true)}
+          onClick={() => onOpenDisclaimer && onOpenDisclaimer()}
           style={{
             marginTop: '2rem',
             padding: '0.6rem 1.2rem',
@@ -275,8 +256,6 @@ export default function Scene1Landing() {
           <circle cx="10" cy="10" r="2" fill="#C9A87C" />
         </svg>
       </div>
-
-      <DisclaimerModal isOpen={showDisclaimer} onClose={handleCloseDisclaimer} />
     </section>
   )
 }
