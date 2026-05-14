@@ -31,28 +31,41 @@ export default function Scene5Sponsors() {
   }, [])
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      const title = sectionRef.current?.querySelector('.sponsors-title')
-      if (title) {
-        gsap.fromTo(title, { opacity: 0, y: 50 }, {
-          opacity: 1, y: 0, duration: 1, ease: 'power3.out',
-          scrollTrigger: { trigger: title, start: 'top 85%', toggleActions: 'play none none reverse' },
+    // Small delay to let layout settle (important on mobile)
+    const timer = setTimeout(() => {
+      const ctx = gsap.context(() => {
+        const title = sectionRef.current?.querySelector('.sponsors-title')
+        if (title) {
+          gsap.fromTo(title, { opacity: 0, y: 30 }, {
+            opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+            scrollTrigger: {
+              trigger: title,
+              start: 'top 95%',
+              once: true,
+            },
+          })
+        }
+        logosRef.current.forEach((logo, i) => {
+          if (!logo) return
+          gsap.fromTo(logo, { opacity: 0, y: 30, scale: 0.85 }, {
+            opacity: 1, y: 0, scale: 1, duration: 0.6, delay: i * 0.06, ease: 'back.out(1.5)',
+            scrollTrigger: {
+              trigger: logo,
+              start: 'top 98%',
+              once: true,
+            },
+          })
         })
-      }
-      logosRef.current.forEach((logo, i) => {
-        if (!logo) return
-        gsap.fromTo(logo, { opacity: 0, y: 40, scale: 0.8 }, {
-          opacity: 1, y: 0, scale: 1, duration: 0.7, delay: i * 0.08, ease: 'back.out(1.7)',
-          scrollTrigger: { trigger: logo, start: 'top 90%', toggleActions: 'play none none reverse' },
-        })
-      })
-    }, sectionRef)
-    return () => ctx.revert()
+        ScrollTrigger.refresh()
+      }, sectionRef)
+      return () => ctx.revert()
+    }, 300)
+    return () => clearTimeout(timer)
   }, [sponsors])
 
   return (
     <section id="sponsors" ref={sectionRef} style={{ minHeight: '70vh', position: 'relative', zIndex: 2, padding: '8rem 2rem 4rem' }}>
-      <div className="sponsors-title" style={{ textAlign: 'center', marginBottom: '5rem', opacity: 0 }}>
+      <div className="sponsors-title" style={{ textAlign: 'center', marginBottom: '5rem' }}>
         <div className="font-mono" style={{ fontSize: '0.75rem', letterSpacing: '0.3em', color: 'var(--color-accent)', marginBottom: '1rem', textTransform: 'uppercase' }}>// Partners & Sponsors</div>
         <h2 className="font-display" style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', fontWeight: 800, marginBottom: '1rem' }}>
           <span style={{ color: '#f8fafc' }}>Backed by the</span>{' '}<span className="gradient-text">Best</span>
