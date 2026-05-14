@@ -31,14 +31,15 @@ export default function App() {
   const [showDisclaimer, setShowDisclaimer] = useState(false)
   const mainRef = useRef()
 
-  // Show disclaimer once on first visit
+  // Show disclaimer once on first visit — but only AFTER loading is done
   useEffect(() => {
+    if (loading) return // wait until loader is finished
     const seen = localStorage.getItem('skyhawks_disclaimer_seen')
     if (!seen) {
-      const t = setTimeout(() => setShowDisclaimer(true), 500)
+      const t = setTimeout(() => setShowDisclaimer(true), 600)
       return () => clearTimeout(t)
     }
-  }, [])
+  }, [loading])
 
   const handleCloseDisclaimer = () => {
     setShowDisclaimer(false)

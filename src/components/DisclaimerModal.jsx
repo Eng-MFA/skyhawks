@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 export default function DisclaimerModal({ isOpen, onClose }) {
-  const [language, setLanguage] = useState('ar'); // 'ar' or 'en'
+  const [language, setLanguage] = useState('ar');
 
   if (!isOpen) return null;
 
@@ -12,61 +12,82 @@ export default function DisclaimerModal({ isOpen, onClose }) {
       left: 0,
       width: '100vw',
       height: '100vh',
-      backgroundColor: 'rgba(0, 0, 0, 0.85)',
+      backgroundColor: 'rgba(0, 0, 0, 0.88)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       zIndex: 9999,
       padding: '1rem',
-      backdropFilter: 'blur(5px)'
+      backdropFilter: 'blur(6px)',
+      boxSizing: 'border-box',
     }}>
       <div style={{
         backgroundColor: '#1a1a1a',
         border: '1px solid #ff4444',
         borderRadius: '12px',
-        padding: '2rem',
+        padding: 'clamp(1rem, 4vw, 2rem)',
         maxWidth: '600px',
         width: '100%',
+        maxHeight: '90vh',
+        display: 'flex',
+        flexDirection: 'column',
         position: 'relative',
-        boxShadow: '0 0 30px rgba(255, 68, 68, 0.2)'
+        boxShadow: '0 0 40px rgba(255, 68, 68, 0.25)',
+        boxSizing: 'border-box',
+        animation: 'disclaimerFadeIn 0.4s ease-out',
       }}>
+
+        {/* Inline keyframes */}
+        <style>{`
+          @keyframes disclaimerFadeIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.97); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+          }
+        `}</style>
+
         {/* Header / Language Switch */}
         <div style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginBottom: '1.5rem',
+          marginBottom: '1rem',
           borderBottom: '1px solid #333',
-          paddingBottom: '1rem'
+          paddingBottom: '0.8rem',
+          flexWrap: 'wrap',
+          gap: '0.5rem',
         }}>
           <h2 style={{
             color: '#ff4444',
             margin: 0,
-            fontSize: '1.5rem',
+            fontSize: 'clamp(1rem, 4vw, 1.4rem)',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.5rem'
+            gap: '0.4rem',
+            flexShrink: 0,
           }}>
             ⚠️ {language === 'ar' ? 'تنبيه وإخلاء مسؤولية' : 'Legal Disclaimer'}
           </h2>
-          
+
+          {/* Language Toggle */}
           <div style={{
             display: 'flex',
-            backgroundColor: '#333',
+            backgroundColor: '#2a2a2a',
             borderRadius: '20px',
             overflow: 'hidden',
-            cursor: 'pointer'
+            border: '1px solid #444',
+            flexShrink: 0,
           }}>
             <button
               onClick={() => setLanguage('ar')}
               style={{
-                padding: '0.4rem 1rem',
+                padding: '0.35rem 0.9rem',
                 border: 'none',
                 backgroundColor: language === 'ar' ? '#ff4444' : 'transparent',
                 color: language === 'ar' ? '#fff' : '#aaa',
                 cursor: 'pointer',
                 fontWeight: language === 'ar' ? 'bold' : 'normal',
-                transition: 'all 0.3s'
+                fontSize: 'clamp(0.75rem, 3vw, 0.9rem)',
+                transition: 'all 0.25s',
               }}
             >
               عربي
@@ -74,13 +95,14 @@ export default function DisclaimerModal({ isOpen, onClose }) {
             <button
               onClick={() => setLanguage('en')}
               style={{
-                padding: '0.4rem 1rem',
+                padding: '0.35rem 0.9rem',
                 border: 'none',
                 backgroundColor: language === 'en' ? '#ff4444' : 'transparent',
                 color: language === 'en' ? '#fff' : '#aaa',
                 cursor: 'pointer',
                 fontWeight: language === 'en' ? 'bold' : 'normal',
-                transition: 'all 0.3s'
+                fontSize: 'clamp(0.75rem, 3vw, 0.9rem)',
+                transition: 'all 0.25s',
               }}
             >
               EN
@@ -88,13 +110,17 @@ export default function DisclaimerModal({ isOpen, onClose }) {
           </div>
         </div>
 
-        {/* Content */}
+        {/* Scrollable Content */}
         <div style={{
           color: '#e0e0e0',
           lineHeight: 1.8,
-          fontSize: '1.05rem',
+          fontSize: 'clamp(0.82rem, 3vw, 1rem)',
           textAlign: language === 'ar' ? 'right' : 'left',
-          direction: language === 'ar' ? 'rtl' : 'ltr'
+          direction: language === 'ar' ? 'rtl' : 'ltr',
+          overflowY: 'auto',
+          flex: 1,
+          paddingRight: language === 'ar' ? '0' : '4px',
+          paddingLeft: language === 'ar' ? '4px' : '0',
         }}>
           {language === 'ar' ? (
             <>
@@ -119,21 +145,24 @@ export default function DisclaimerModal({ isOpen, onClose }) {
 
         {/* Footer / Close Button */}
         <div style={{
-          marginTop: '2rem',
-          textAlign: 'center'
+          marginTop: '1.2rem',
+          textAlign: 'center',
+          flexShrink: 0,
         }}>
           <button
             onClick={onClose}
             style={{
-              padding: '0.8rem 2rem',
+              padding: 'clamp(0.6rem, 2vw, 0.8rem) clamp(1.2rem, 6vw, 2rem)',
               backgroundColor: '#ff4444',
               color: '#fff',
               border: 'none',
               borderRadius: '6px',
-              fontSize: '1rem',
+              fontSize: 'clamp(0.85rem, 3vw, 1rem)',
               fontWeight: 'bold',
               cursor: 'pointer',
               transition: 'background-color 0.2s',
+              width: '100%',
+              maxWidth: '280px',
             }}
             onMouseOver={(e) => e.target.style.backgroundColor = '#cc0000'}
             onMouseOut={(e) => e.target.style.backgroundColor = '#ff4444'}
