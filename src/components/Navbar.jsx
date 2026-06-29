@@ -19,7 +19,7 @@ export default function Navbar() {
 
   const navItems = [
     { label: 'Home', href: '#landing' },
-    { label: 'Engineering', href: '#engineering' },
+    { label: 'OUR UAVs', href: '#engineering' },
     { label: 'Team', href: '#team' },
     { label: 'Achievements', href: '#achievements' },
     { label: 'Sponsors', href: '#sponsors' },

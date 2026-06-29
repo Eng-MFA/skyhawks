@@ -45,6 +45,7 @@
     </div>
     <nav class="sidebar-nav">
       <a href="#" class="nav-item active" data-section="engineering">⚙️ Engineering</a>
+      <a href="#" class="nav-item" data-section="uavs">✈️ OUR UAVs</a>
       <a href="#" class="nav-item" data-section="team">👥 Team</a>
       <a href="#" class="nav-item" data-section="achievements">🏆 Achievements</a>
       <a href="#" class="nav-item" data-section="sponsors">💎 Sponsors</a>
@@ -69,6 +70,15 @@
       <div id="specs-list" class="cards-grid"></div>
       <h3 class="sub-heading" style="margin-top:2rem">Overall Stats</h3>
       <div id="stats-list" class="cards-grid"></div>
+    </div>
+
+    <!-- UAVs Section -->
+    <div id="section-uavs" class="section-panel">
+      <div class="panel-header">
+        <h2>✈️ OUR UAVs</h2>
+        <button class="btn-primary" onclick="openAddModal('uav-modal', 'uav-form', 'Add UAV')">+ Add UAV</button>
+      </div>
+      <div id="uavs-list" class="cards-grid"></div>
     </div>
 
     <div id="section-team" class="section-panel">
@@ -293,6 +303,56 @@
         <button type="submit" class="btn-primary">Save</button>
         <button type="button" class="btn-ghost" onclick="closeModal('sponsor-modal')">Cancel</button>
       </div>
+    </form>
+  </div>
+</div>
+
+<!-- UAV Add/Edit Modal -->
+<div id="uav-modal" class="modal-overlay" style="display:none">
+  <div class="modal modal-wide">
+    <div class="modal-header">
+      <h3 id="uav-modal-title">Add UAV</h3>
+      <button class="modal-close" onclick="closeModal('uav-modal')">×</button>
+    </div>
+    <form id="uav-form" class="modal-form" enctype="multipart/form-data">
+      <input type="hidden" name="_id"/>
+      <div class="form-grid">
+        <div class="field-group"><label>UAV Name *</label><input type="text" name="name" placeholder="Hawk-1" required/></div>
+        <div class="field-group"><label>Status</label>
+          <select name="status">
+            <option value="Active">🟢 Active</option>
+            <option value="Retired">🔴 Retired</option>
+            <option value="Under Development">🟡 Under Development</option>
+          </select>
+        </div>
+        <div class="field-group"><label>Competition Name</label><input type="text" name="competition" placeholder="SAE Aero Design East"/></div>
+        <div class="field-group"><label>Competition Date</label><input type="text" name="competitionDate" placeholder="May 2024"/></div>
+        <div class="field-group"><label>Order</label><input type="number" name="order" value="0"/></div>
+      </div>
+      <div class="field-group"><label>Achievements</label><input type="text" name="achievements" placeholder="1st Place — Fixed Wing Category"/></div>
+      <div class="field-group"><label>Short Description</label><textarea name="description" rows="2" placeholder="Brief description of the aircraft..."></textarea></div>
+      <div class="field-group"><label>Main Image</label><input type="file" name="image" accept="image/*" id="uav-image-input"/></div>
+      <div id="uav-image-preview" style="margin-top:.5rem"></div>
+      <div class="modal-actions">
+        <button type="submit" class="btn-primary">Save</button>
+        <button type="button" class="btn-ghost" onclick="closeModal('uav-modal')">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- UAV Gallery Modal -->
+<div id="uav-gallery-modal" class="modal-overlay" style="display:none">
+  <div class="modal modal-wide">
+    <div class="modal-header">
+      <h3 id="uav-gallery-modal-title">Gallery</h3>
+      <button class="modal-close" onclick="closeModal('uav-gallery-modal')">×</button>
+    </div>
+    <div id="uav-gallery-grid" class="images-grid"></div>
+    <form id="uav-gallery-upload-form" class="modal-form" enctype="multipart/form-data" style="margin-top:1rem">
+      <input type="hidden" id="uav-gallery-id"/>
+      <div class="field-group"><label>Upload New Gallery Images</label><input type="file" id="uav-gallery-files" accept="image/*" multiple/></div>
+      <button type="submit" class="btn-primary">Upload</button>
     </form>
   </div>
 </div>

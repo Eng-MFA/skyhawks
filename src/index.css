@@ -875,3 +875,341 @@ body {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* ============================================
+   OUR UAVs — Fleet Carousel
+   ============================================ */
+
+@keyframes uav-fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Main fleet card wrapper */
+.uav-fleet-card {
+  background: rgba(20, 16, 10, 0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(201, 168, 124, 0.2);
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.5), 0 0 80px rgba(201, 168, 124, 0.05);
+  transition: border-color 0.4s ease;
+  margin: 0 4rem; /* room for arrows */
+}
+
+.uav-fleet-card:hover {
+  border-color: rgba(201, 168, 124, 0.35);
+}
+
+/* Top highlight line */
+.uav-fleet-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 168, 124, 0.5), rgba(212, 168, 67, 0.4), transparent);
+}
+
+/* Inner flex layout */
+.uav-fleet-inner {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  min-height: 420px;
+}
+
+/* Left: image column */
+.uav-image-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem;
+  border-right: 1px solid rgba(201, 168, 124, 0.1);
+  background: rgba(10, 8, 5, 0.3);
+  gap: 1.5rem;
+  position: relative;
+}
+
+.uav-image-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  aspect-ratio: 4/3;
+}
+
+.uav-main-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid rgba(201, 168, 124, 0.15);
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.uav-fleet-card:hover .uav-main-image {
+  transform: scale(1.02);
+}
+
+.uav-image-glow {
+  position: absolute;
+  inset: -15px;
+  border-radius: 24px;
+  background: radial-gradient(ellipse at 50% 80%, rgba(201, 168, 124, 0.12), transparent 70%);
+  pointer-events: none;
+}
+
+.uav-image-placeholder {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 4/3;
+  background: rgba(201, 168, 124, 0.04);
+  border: 2px dashed rgba(201, 168, 124, 0.2);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Right: details column */
+.uav-details-col {
+  flex: 1.1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2.5rem;
+}
+
+/* UAV name */
+.uav-name {
+  font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+  font-weight: 900;
+  background: linear-gradient(135deg, #C9A87C, #E2C49A, #D4A843);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.25rem;
+}
+
+/* Status badge */
+.uav-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  margin-bottom: 0.75rem;
+  align-self: flex-start;
+  animation: glow-pulse-status 2.5s ease-in-out infinite;
+}
+
+@keyframes glow-pulse-status {
+  0%, 100% { opacity: 0.85; }
+  50%       { opacity: 1; }
+}
+
+/* Info rows */
+.uav-info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(201, 168, 124, 0.08);
+}
+
+.uav-info-row:last-of-type {
+  border-bottom: none;
+}
+
+.uav-info-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.uav-info-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  margin-bottom: 0.3rem;
+}
+
+.uav-info-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-strong);
+  line-height: 1.4;
+}
+
+.uav-info-date {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  margin-top: 0.2rem;
+  font-family: var(--font-mono);
+}
+
+/* Gallery button */
+.uav-gallery-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+  padding: 0.7rem 1.4rem;
+  background: rgba(201, 168, 124, 0.08);
+  border: 1px solid rgba(201, 168, 124, 0.3);
+  border-radius: 10px;
+  color: var(--color-primary-bright);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-self: flex-start;
+}
+
+.uav-gallery-btn:hover {
+  background: rgba(201, 168, 124, 0.15);
+  border-color: rgba(201, 168, 124, 0.55);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(201, 168, 124, 0.2);
+}
+
+.uav-gallery-count {
+  background: rgba(201, 168, 124, 0.25);
+  border-radius: 9999px;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.7rem;
+  color: var(--color-primary-bright);
+}
+
+/* Navigation arrows */
+.uav-nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(20, 16, 10, 0.85);
+  border: 1px solid rgba(201, 168, 124, 0.3);
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: var(--color-primary);
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  line-height: 1;
+  padding-bottom: 2px;
+}
+
+.uav-nav-arrow:hover:not(:disabled) {
+  background: rgba(201, 168, 124, 0.15);
+  border-color: rgba(201, 168, 124, 0.6);
+  box-shadow: 0 0 20px rgba(201, 168, 124, 0.3);
+  color: var(--color-primary-bright);
+}
+
+.uav-nav-arrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.uav-nav-arrow-left  { left:  -26px; }
+.uav-nav-arrow-right { right: -26px; }
+
+/* Dot indicators */
+.uav-dots {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+}
+
+.uav-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 168, 124, 0.4);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.uav-dot-active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 8px rgba(201, 168, 124, 0.6);
+  transform: scale(1.3);
+}
+
+/* ============================================
+   Responsive — UAVs
+   ============================================ */
+
+@media (max-width: 768px) {
+  .uav-fleet-inner {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .uav-image-col {
+    border-right: none;
+    border-bottom: 1px solid rgba(201, 168, 124, 0.1);
+    padding: 2rem 1.5rem;
+  }
+
+  .uav-details-col {
+    padding: 2rem 1.5rem;
+  }
+
+  .uav-fleet-card {
+    margin: 0 2.5rem;
+  }
+
+  .uav-nav-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+
+  .uav-nav-arrow-left  { left:  -20px; }
+  .uav-nav-arrow-right { right: -20px; }
+
+  .uav-name {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .uav-fleet-card {
+    margin: 0 1.8rem;
+  }
+
+  .uav-nav-arrow {
+    width: 36px;
+    height: 36px;
+    font-size: 1.3rem;
+  }
+
+  .uav-nav-arrow-left  { left:  -18px; }
+  .uav-nav-arrow-right { right: -18px; }
+}
+

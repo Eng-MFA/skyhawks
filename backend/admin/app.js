@@ -100,7 +100,7 @@ $('logout-btn').addEventListener('click', () => {
 async function showDashboard() {
   $('login-page').style.display = 'none'
   $('dashboard-page').style.display = 'flex'
-  loadEngineering(); loadTeam(); loadAchievements(); loadSponsors(); loadContactInfo(); loadMessages()
+  loadEngineering(); loadUAVs(); loadTeam(); loadAchievements(); loadSponsors(); loadContactInfo(); loadMessages()
 }
 
 // Auto-login if token exists
@@ -271,7 +271,124 @@ async function deleteStat(id) {
   toast('Deleted'); loadEngineering()
 }
 
+// ─── UAVs ─────────────────────────────────────────────────────────────────────
+async function loadUAVs() {
+  const uavs = await api('GET', '/api/engineering/uavs')
+  renderUAVs(uavs)
+}
+
+const STATUS_COLORS = { Active: '#4ade80', Retired: '#f87171', 'Under Development': '#D4A843' }
+
+function renderUAVs(uavs) {
+  $('uavs-list').innerHTML = uavs.length === 0
+    ? '<p style="color:var(--text-muted)">No UAVs yet. Click "+ Add UAV" to add your first aircraft.</p>'
+    : uavs.map(u => `
+    <div class="data-card" style="border-top:3px solid ${STATUS_COLORS[u.status] || '#C9A87C'}">
+      ${u.image ? `<img src="${u.image}" style="width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:.75rem"/>` : '<div style="width:100%;height:80px;background:rgba(201,168,124,.05);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:2rem;margin-bottom:.75rem">✈️</div>'}
+      <div class="card-title">${u.name}</div>
+      <div class="card-badge" style="background:rgba(201,168,124,.1);color:${STATUS_COLORS[u.status] || '#C9A87C'};margin-bottom:.5rem">${u.status}</div>
+      ${u.competition ? `<div class="card-sub">🏆 ${u.competition}${u.competitionDate ? ' — ' + u.competitionDate : ''}</div>` : ''}
+      ${u.achievements ? `<div class="card-sub" style="color:#D4A843;margin-top:.25rem">🥇 ${u.achievements}</div>` : ''}
+      <div style="margin-top:.4rem;font-size:.72rem;color:var(--text-muted)">${(u.gallery||[]).length} gallery image(s)</div>
+      <div class="card-actions">
+        <button class="btn-edit" onclick='editUAV(${JSON.stringify(u).replace(/'/g, "&#39;")})'>✏ Edit</button>
+        <button class="btn-secondary" onclick='openUAVGallery(${JSON.stringify(u).replace(/'/g, "&#39;")})'>🖼 Gallery</button>
+        <button class="btn-danger" onclick="deleteUAV('${u._id}')">🗑 Delete</button>
+      </div>
+    </div>`).join('')
+}
+
+function editUAV(u) {
+  const form = $('uav-form')
+  form._id.value = u._id
+  form.name.value = u.name
+  form.status.value = u.status || 'Active'
+  form.competition.value = u.competition || ''
+  form.competitionDate.value = u.competitionDate || ''
+  form.achievements.value = u.achievements || ''
+  form.description.value = u.description || ''
+  form.order.value = u.order || 0
+  // Show current image preview
+  const preview = $('uav-image-preview')
+  preview.innerHTML = u.image
+    ? `<img src="${u.image}" style="max-width:200px;max-height:120px;object-fit:cover;border-radius:8px;border:1px solid rgba(201,168,124,.2)"/>`
+    : ''
+  $('uav-modal-title').textContent = 'Edit UAV'
+  openModal('uav-modal')
+}
+
+$('uav-form').addEventListener('submit', async e => {
+  e.preventDefault()
+  const form = $('uav-form')
+  const fd = new FormData(form)
+  const id = fd.get('_id'); fd.delete('_id')
+  try {
+    if (id) await api('PUT', `/api/engineering/uavs/${id}`, fd, true)
+    else     await api('POST', '/api/engineering/uavs', fd, true)
+    closeModal('uav-modal')
+    toast('UAV saved!')
+    loadUAVs()
+    form.reset()
+    $('uav-image-preview').innerHTML = ''
+    $('uav-modal-title').textContent = 'Add UAV'
+  } catch (err) { toast(err.message, 'error') }
+})
+
+async function deleteUAV(id) {
+  if (!confirm('Delete this UAV?')) return
+  await api('DELETE', `/api/engineering/uavs/${id}`)
+  toast('Deleted'); loadUAVs()
+}
+
+// Image preview when selecting file
+$('uav-image-input').addEventListener('change', function () {
+  const file = this.files[0]
+  if (!file) return
+  const reader = new FileReader()
+  reader.onload = e => {
+    $('uav-image-preview').innerHTML = `<img src="${e.target.result}" style="max-width:200px;max-height:120px;object-fit:cover;border-radius:8px;border:1px solid rgba(201,168,124,.2)"/>`
+  }
+  reader.readAsDataURL(file)
+})
+
+// ── UAV Gallery ──
+function openUAVGallery(u) {
+  $('uav-gallery-id').value = u._id
+  document.querySelector('#uav-gallery-modal .modal-header h3').textContent = 'Gallery: ' + u.name
+  renderUAVGallery(u._id, u.gallery || [])
+  openModal('uav-gallery-modal')
+}
+
+function renderUAVGallery(id, images) {
+  $('uav-gallery-grid').innerHTML = images.map((img, idx) => `
+    <div class="img-wrap">
+      <img src="${img.startsWith('data:') || img.startsWith('http') ? img : API + img}" alt="gallery"/>
+      <button class="img-remove" onclick="removeUAVGalleryImage('${id}', ${idx})">×</button>
+    </div>`).join('')
+}
+
+async function removeUAVGalleryImage(id, idx) {
+  if (!confirm('Remove this image?')) return
+  const res = await api('DELETE', `/api/engineering/uavs/${id}/gallery`, { imageIndex: idx })
+  renderUAVGallery(id, res.gallery || [])
+  toast('Image removed'); loadUAVs()
+}
+
+$('uav-gallery-upload-form').addEventListener('submit', async e => {
+  e.preventDefault()
+  const id = $('uav-gallery-id').value
+  const files = $('uav-gallery-files').files
+  if (!files.length) return
+  const fd = new FormData()
+  for (const f of files) fd.append('gallery', f)
+  const res = await api('POST', `/api/engineering/uavs/${id}/gallery`, fd, true)
+  renderUAVGallery(id, res.gallery || [])
+  toast('Gallery images uploaded!'); loadUAVs()
+  $('uav-gallery-files').value = ''
+})
+
 // ─── TEAM ─────────────────────────────────────────────────────────────────────
+
 async function loadTeam() {
   const team = await api('GET', '/api/team')
   $('team-list').innerHTML = team.map(m => `
@@ -526,7 +643,7 @@ async function importBackup(input) {
     const res = await api('POST', '/api/backup/import', fd, true)
     msgEl.textContent = '✓ ' + res.message; msgEl.style.color = 'var(--success)'
     toast('Backup restored!')
-    loadEngineering(); loadTeam(); loadAchievements(); loadSponsors(); loadContactInfo(); loadMessages()
+    loadEngineering(); loadUAVs(); loadTeam(); loadAchievements(); loadSponsors(); loadContactInfo(); loadMessages()
   } catch (err) {
     msgEl.textContent = '✗ ' + err.message; msgEl.style.color = 'var(--danger)'
     toast(err.message, 'error')

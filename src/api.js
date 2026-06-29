@@ -19,8 +19,11 @@ export const getEngineering = () => Promise.all([
   api.get('/api/engineering/stats'),
 ]).then(([specs, stats]) => ({ specs, stats }))
 
+export const getUAVs = () => api.get('/api/engineering/uavs')
+
 export const getTeam = () => api.get('/api/team')
 export const getAchievements = () => api.get('/api/achievements')
 export const getSponsors = () => api.get('/api/sponsors')
 export const getContactInfo = () => api.get('/api/contact/info')
 export const submitMessage = (data) => api.post('/api/contact/message', data)
+
